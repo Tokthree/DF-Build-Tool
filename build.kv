@@ -1,0 +1,25 @@
+#:kivy 2.1.0
+
+<BuildScreen>:
+    cols: 1
+    canvas.before:
+        Rectangle:
+            source: './images/background.jpg'
+            size: self.size
+            pos:self.pos
+
+    GridLayout:
+        cols: 2
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        canvas:
+            Color:
+                rgba: (0,0,0,0.6)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: 'Coded and maintaned by Rebekah | All non-code assets are the property of Creaky Corpse LTD and are utilised under fair-use'
+            size: self.texture_size
