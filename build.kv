@@ -9,7 +9,52 @@
             pos:self.pos
 
     GridLayout:
-        cols: 2
+        cols: 1
+        padding: 20
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 20
+            GridLayout:
+                cols: 3
+                spacing: 20
+                BoxLayout:
+                    orientation: 'vertical'
+                    canvas:
+                        Color:
+                            rgba: (0,0,0,0.6)
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    Label:
+                        text: 'Character Stats'
+                BoxLayout:
+                    orientation: 'vertical'
+                    canvas:
+                        Color:
+                            rgba: (0,0,0,0.6)
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    Label:
+                        text: 'Weapon Stats'
+                BoxLayout:
+                    orientation: 'vertical'
+                    canvas:
+                        Color:
+                            rgba: (0,0,0,0.6)
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    Label:
+                        text: 'Total Stats'
+            GridLayout:
+                cols:1
+                canvas:
+                    Color:
+                        rgba: (0,0,0,0.6)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
 
     BoxLayout:
         size_hint_y: None

@@ -7,7 +7,8 @@ Config.set('graphics', 'height', '1080')
 
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.boxlayout import BoxLayout
+
+from character import *
 
 class BuildScreen(GridLayout):
     def __init__(self, **kwargs):
