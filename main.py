@@ -10,6 +10,8 @@ from kivy.uix.gridlayout import GridLayout
 
 from character import *
 
+char = Character()
+
 class BuildScreen(GridLayout):
     def __init__(self, **kwargs):
         super(BuildScreen, self).__init__(**kwargs)
@@ -23,3 +25,4 @@ class BuildApp(App):
 
 if __name__ == "__main__":
     BuildApp().run()
+    print(char)

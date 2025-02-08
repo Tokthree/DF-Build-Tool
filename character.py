@@ -52,10 +52,10 @@ class Character():
             'explosives':0
         }
         self.equipment = {
-            'weapon1':{'accuracy':0, 'reloading':0, 'critical':0},
-            'weapon2':{'accuracy':0, 'reloading':0, 'critical':0},
-            'weapon3':{'accuracy':0, 'reloading':0, 'critical':0},
-            'armour':{'agility':0, 'endurance':0}
+            'weapon1':{'accuracy':8, 'reloading':1, 'critical':0},
+            'weapon2':{'accuracy':0, 'reloading':8, 'critical':1},
+            'weapon3':{'accuracy':1, 'reloading':0, 'critical':8},
+            'armour':{'agility':24, 'endurance':12}
         }
         self.implants = [None for _ in range(20)]
         self.equpment_bonus_totals = {}
@@ -71,6 +71,10 @@ class Character():
             'proficiencies':{
             }
         }
+        self.update_equipment_bonus_totals()
+        self.update_statprof_bonus_totals()
+        self.update_statprof_totals()
+
 
     def set_level(self, value: int):
         self.level = value
@@ -98,9 +102,11 @@ class Character():
         self.update_statprof_totals()
 
     def set_equipment(self, equipment: dict):
+        self.equipment = {}
         for key in equipment:
+            self.equipment[key] = {}
             for key2 in equipment[key]:
-                self.equpment_bonus_totals[key][key2] = equipment[key][key2]
+                self.equipment[key][key2] = equipment[key][key2]
 
         self.update_equipment_bonus_totals()
         self.update_statprof_bonus_totals()
@@ -110,10 +116,13 @@ class Character():
         self.implants[index] = implant
 
     def update_equipment_bonus_totals(self):
+        self.equpment_bonus_totals = {}
         for key in self.equipment:
             for key2 in self.equipment[key]:
-                self.equpment_bonus_totals[key2] = 0
+                if key2 not in self.equpment_bonus_totals:
+                    self.equpment_bonus_totals[key2] = 0
                 self.equpment_bonus_totals[key2] += self.equipment[key][key2]
+        print(self.equpment_bonus_totals)
 
     def update_statprof_bonus_totals(self):
         total_stats = self.statprof_bonus_totals['stats']
@@ -135,3 +144,47 @@ class Character():
             total_stats[key] = self.stats[key] + self.statprof_bonus_totals['stats'][key]
         for key in self.proficiencies:
             total_proficiencies[key] = self.proficiencies[key] + self.statprof_bonus_totals['proficiencies'][key]
+
+    def __repr__(self):
+        repr_string = f'---Basic Stats---\n\nLevel: {self.level}\nStat points: {self.stat_points}\nProficiency points: {self.proficiency_points}\n\n\n---Allocated stats---\n\n'
+        for key in self.stats:
+            repr_string += f'- {key}: {self.stats[key]}\n'
+
+        repr_string += f'\n\n---Allocated proficiencies---\n\n'
+        for key in self.proficiencies:
+            repr_string += f'- {key}: {self.proficiencies[key]}\n'
+        
+        repr_string += f'\n\n---Equipment Bonuses---\n\n'
+        for key in self.equipment:
+            repr_string += f'{key}:\n'
+            for key2 in self.equipment[key]:
+                repr_string += f'- {key2}: {self.equipment[key][key2]}\n'
+            repr_string += f'\n'
+
+        repr_string += f'\n---Profession Stats---\n\nProfession name: {self.profession.name}\n'
+        for key in self.profession.stats:
+            repr_string += f'Bonus {key}:\n'
+            for key2 in self.profession.stats[key]:
+                repr_string += f'- {key2}: {self.profession.stats[key][key2]}\n'
+            repr_string += '\n'
+
+        repr_string += f'\n---Equipment Bonus Totals---\n\n'
+        for key in self.equpment_bonus_totals:
+            repr_string += f'- {key}: {self.equpment_bonus_totals[key]}\n'
+
+        repr_string += f'\n\n---Bonus Totals---\n\n'
+        for key in self.statprof_bonus_totals:
+            repr_string += f'Bonus {key}:\n'
+            for key2 in self.statprof_bonus_totals[key]:
+                repr_string += f'- {key2}: {self.statprof_bonus_totals[key][key2]}\n'
+            repr_string += '\n'
+
+        repr_string += f'\n---Stat Totals---\n\n'
+        for key in self.statprof_totals:
+            repr_string += f'{key}:\n'
+            for key2 in self.statprof_totals[key]:
+                repr_string += f'- {key2}: {self.statprof_totals[key][key2]}\n'
+            repr_string += '\n'
+
+
+        return repr_string

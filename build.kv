@@ -8,54 +8,159 @@
             size: self.size
             pos:self.pos
 
+    #Header container
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        canvas:
+            Color:
+                rgba: (0,0,0,0.6)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: 'Dead Frontier Build Tool'
+            size: self.texture_size
+
+    #Content container
     GridLayout:
         cols: 1
         padding: 20
+
+        #Content subcontainer
         BoxLayout:
             orientation: 'vertical'
             spacing: 20
+
+            #Stats container
             GridLayout:
                 cols: 3
                 spacing: 20
-                BoxLayout:
-                    orientation: 'vertical'
-                    canvas:
-                        Color:
-                            rgba: (0,0,0,0.6)
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
-                    Label:
-                        text: 'Character Stats'
-                BoxLayout:
-                    orientation: 'vertical'
-                    canvas:
-                        Color:
-                            rgba: (0,0,0,0.6)
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
-                    Label:
-                        text: 'Weapon Stats'
-                BoxLayout:
-                    orientation: 'vertical'
-                    canvas:
-                        Color:
-                            rgba: (0,0,0,0.6)
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
-                    Label:
-                        text: 'Total Stats'
-            GridLayout:
-                cols:1
-                canvas:
-                    Color:
-                        rgba: (0,0,0,0.6)
-                    Rectangle:
-                        size: self.size
-                        pos: self.pos
 
+                #Character Stats subcontainer
+                GridLayout:
+                    cols: 1
+                    spacing: 10
+                    canvas:
+                        Color:
+                            rgba: (0,0,0,0.6)
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                    #Header container
+                    BoxLayout:
+                        size_hint_y: None
+                        height: 40
+                        Label:
+                            text: 'Character Stats'
+                            size: self.texture_size
+
+                    #Content container
+                    GridLayout:
+                        cols: 1
+                        padding: 10
+                        spacing: 10
+
+                        #Base stats subcontainer
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: 90
+                            canvas:
+                                Color:
+                                    rgba: (255,255,255,0.05)
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            #Title container
+                            BoxLayout:
+                                size_hint_y: None
+                                height: 30
+                                Label:
+                                    text: 'Base Stats'
+                                    size: self.texture_size
+                            
+                            #Input container
+                            GridLayout:
+                                cols: 2
+                                size_hint_y: None
+                                height: 60
+                                Label:
+                                    size_hint_y: None
+                                    height: 30
+                                    text: 'Profession'
+                                Label:
+                                    size_hint_y: None
+                                    height: 30
+                                    text: 'Level'
+                                #DropDown:
+                                    #Button:
+                                        #text: 'Item'
+                                TextInput:
+                                    multiline: False
+                                    input_filter: 'int'
+                                    size_hint_y: None
+                                    height: 30
+                                        
+                            
+
+                #Weapon Stats subcontainer
+                GridLayout:
+                    cols: 1
+                    spacing: 10
+                    canvas:
+                        Color:
+                            rgba: (0,0,0,0.6)
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                    #Header container
+                    BoxLayout:
+                        size_hint_y: None
+                        height: 40
+                        Label:
+                            text: 'Weapon Stats'
+
+                    #Content container
+                    BoxLayout:
+                        orientation: 'vertical'
+
+                #Total Stats subcontainer
+                GridLayout:
+                    cols: 1
+                    spacing: 10
+                    canvas:
+                        Color:
+                            rgba: (0,0,0,0.6)
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                    #Header container
+                    BoxLayout:
+                        size_hint_y: None
+                        height: 40
+                        Label:
+                            text: 'Total Stats'
+
+                    #Content container
+                    BoxLayout:
+                        orientation: 'vertical'
+
+            #Implants container
+            #GridLayout:
+                #cols:1
+                #canvas:
+                    #Color:
+                        #rgba: (0,0,0,0.6)
+                    #Rectangle:
+                        #size: self.size
+                        #pos: self.pos
+
+    #Footer container
     BoxLayout:
         size_hint_y: None
         height: 40
