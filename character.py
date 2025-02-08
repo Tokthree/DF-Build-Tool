@@ -3,6 +3,16 @@ class Profession():
         self.name = name
         self.stats = stats
 
+    def __repr__(self):
+        repr_string = f'\n---Profession Stats---\n\nProfession name: {self.name}\n'
+        for key in self.stats:
+            repr_string += f'Bonus {key}:\n'
+            for key2 in self.stats[key]:
+                repr_string += f'- {key2}: {self.stats[key][key2]}\n'
+            repr_string += '\n'
+        
+        return repr_string
+
 class Implant():
     def __init__(self, name: str, stats: dict):
         self.name = name
@@ -122,7 +132,6 @@ class Character():
                 if key2 not in self.equpment_bonus_totals:
                     self.equpment_bonus_totals[key2] = 0
                 self.equpment_bonus_totals[key2] += self.equipment[key][key2]
-        print(self.equpment_bonus_totals)
 
     def update_statprof_bonus_totals(self):
         total_stats = self.statprof_bonus_totals['stats']

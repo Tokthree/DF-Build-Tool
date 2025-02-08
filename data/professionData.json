@@ -1,0 +1,42 @@
+{
+    "test1": {
+        "stats":{
+            "strength":1,
+            "endurance":1,
+            "agility":1,
+            "accuracy":1,
+            "critical":1,
+            "reloading":1,
+            "dexterity":1,
+            "stealth":1
+        },
+        "proficiencies":{
+            "melee":1,
+            "pistols":1,
+            "rifles":1,
+            "shotguns":1,
+            "machineguns":1,
+            "explosives":1
+        }
+    },
+    "test2": {
+        "stats":{
+            "strength":2,
+            "endurance":2,
+            "agility":2,
+            "accuracy":2,
+            "critical":2,
+            "reloading":2,
+            "dexterity":2,
+            "stealth":2
+        },
+        "proficiencies":{
+            "melee":2,
+            "pistols":2,
+            "rifles":2,
+            "shotguns":2,
+            "machineguns":2,
+            "explosives":2
+        }
+    }
+}

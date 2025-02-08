@@ -95,9 +95,14 @@
                                     size_hint_y: None
                                     height: 30
                                     text: 'Level'
-                                #DropDown:
-                                    #Button:
-                                        #text: 'Item'
+                                Spinner:
+                                    id: professionSelect
+                                    size_hint_y: None
+                                    height: 30
+                                    text: 'Dropdown'
+                                    values: []
+                                    sync_height: True
+                                    on_text: root.profession_select()
                                 TextInput:
                                     multiline: False
                                     input_filter: 'int'
