@@ -23,21 +23,21 @@ class Character():
         self.level = 1
         self.profession = Profession('test', {
             'stats':{
-                'strength':5,
+                'strength':0,
                 'endurance':0,
-                'agility':5,
+                'agility':0,
                 'accuracy':0,
-                'critical':5,
+                'critical':0,
                 'reloading':0,
-                'dexterity':5,
+                'dexterity':0,
                 'stealth':0
             },
             'proficiencies':{
-                'melee':5,
+                'melee':0,
                 'pistols':0,
-                'rifles':5,
+                'rifles':0,
                 'shotguns':0,
-                'machineguns':5,
+                'machineguns':0,
                 'explosives':0
             }
         })
