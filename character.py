@@ -1,19 +1,5 @@
-from kivy.properties import NumericProperty, ObjectProperty, DictProperty, ListProperty
+from kivy.properties import NumericProperty, DictProperty, ListProperty
 from kivy.uix.behaviors.codenavigation import EventDispatcher
-class Profession():
-    def __init__(self, name: str, stats: dict):
-        self.name = name
-        self.stats = stats
-
-    def __repr__(self):
-        repr_string = f'\n---Profession Stats---\n\nProfession name: {self.name}\n'
-        for key in self.stats:
-            repr_string += f'Bonus {key}:\n'
-            for key2 in self.stats[key]:
-                repr_string += f'- {key2}: {self.stats[key][key2]}\n'
-            repr_string += '\n'
-        
-        return repr_string
 
 class Implant():
     def __init__(self, name: str, stats: dict):
@@ -23,26 +9,26 @@ class Implant():
 class Character(EventDispatcher):
     level = NumericProperty(1)
     required_level = NumericProperty(1)
-    profession = ObjectProperty(Profession('test', {
-            'stats':{
-                'strength':10,
-                'endurance':0,
-                'agility':0,
-                'accuracy':0,
-                'critical':0,
-                'reloading':0,
-                'dexterity':0,
-                'stealth':0
-            },
-            'proficiencies':{
-                'melee':0,
-                'pistols':0,
-                'rifles':0,
-                'shotguns':0,
-                'machineguns':0,
-                'explosives':0
-            }
-        }))
+    required_level_stats = NumericProperty(1)
+    required_level_proficiencies = NumericProperty(1)
+    profession_stats = DictProperty({
+        'strength':0,
+        'endurance':0,
+        'agility':0,
+        'accuracy':0,
+        'critical':0,
+        'reloading':0,
+        'dexterity':0,
+        'stealth':0
+    })
+    profession_proficiencies = DictProperty({
+        'melee':0,
+        'pistols':0,
+        'rifles':0,
+        'shotguns':0,
+        'machineguns':0,
+        'explosives':0
+    })
     stat_points = NumericProperty(0)
     stat_points_used = NumericProperty(0)
     proficiency_points = NumericProperty(0)
@@ -66,21 +52,18 @@ class Character(EventDispatcher):
             'explosives':0
         })
     equipment = DictProperty({
-            'weapon1':{'accuracy':8, 'reloading':1, 'critical':0},
-            'weapon2':{'accuracy':0, 'reloading':8, 'critical':1},
-            'weapon3':{'accuracy':1, 'reloading':0, 'critical':8},
-            'armour':{'agility':24, 'endurance':12}
+            'weapon1':{'accuracy':0, 'reloading':0, 'critical':0},
+            'weapon2':{'accuracy':0, 'reloading':0, 'critical':0},
+            'weapon3':{'accuracy':0, 'reloading':0, 'critical':0},
+            'armour':{'agility':0, 'endurance':0}
         })
     implants = ListProperty([None for _ in range(20)])
     equipment_bonus_totals = DictProperty({})
-    stat_bonus_totals = DictProperty({})
-    proficiency_bonus_totals = DictProperty({})
     stat_totals = DictProperty({})
-    proficiency_totals = DictProperty({})
+    
     def __init__(self):
         self.update_equipment_bonus_totals()
-        self.update_statprof_bonus_totals()
-        self.update_statprof_totals()
+        self.update_stat_totals()
 
     def set_level(self, value: int):
         self.level = value
@@ -94,22 +77,52 @@ class Character(EventDispatcher):
             self.stat_points = 415 + (value - 220)
             self.proficiency_points = 585 + (value - 220)
 
-    def set_profession(self, profession: Profession):
-        self.profession = profession
-        self.update_statprof_bonus_totals()
-        self.update_statprof_totals()
+    def set_profession(self, stats: dict, proficiencies: dict):
+        self.profession_stats = stats
+        self.profession_proficiencies = proficiencies
+        self.update_stat_totals()
 
     def set_stat(self, key: str, value: int):
-        self.stats[key] = value
-        self.stat_points_used = (value - 25)
-        #self.stat_points_used = 0
-        #for _key in self.stats:
-            #self.stat_points_used += (self.stats[_key] - 25)
-        self.update_statprof_totals()
+        self.stats[key] = int(value)
+        self.stat_points_used = 0
+        for _key in self.stats:
+            if _key == 'dexterity' or _key == 'stealth':
+                self.stat_points_used += self.stats[_key] - self.profession_stats[_key]
+            else:
+                self.stat_points_used += self.stats[_key] - (25 + self.profession_stats[_key])
+
+        if self.stat_points_used <= 245:
+            self.required_level_stats = (self.stat_points_used / 5) + 1
+        else:
+            self.required_level_stats = 50 + (self.stat_points_used - 245)
+
+        if self.required_level_stats > self.required_level_proficiencies:
+            self.required_level = self.required_level_stats
+        else:
+            self.required_level = self.required_level_proficiencies
+        self.update_stat_totals()
 
     def set_proficiency(self, key: str, value: int):
-        self.proficiencies[key] = value
-        self.update_statprof_totals()
+        self.proficiencies[key] = int(value)
+        self.proficiency_points_used = 0
+        for _key in self.proficiencies:
+            if _key == 'melee' or _key == 'pistols':
+                self.proficiency_points_used += self.proficiencies[_key] - (5 + self.profession_proficiencies[_key])
+            else:
+                self.proficiency_points_used += self.proficiencies[_key] - self.profession_proficiencies[_key]
+
+        if self.proficiency_points_used <= 245:
+            self.required_level_proficiencies = (self.proficiency_points_used / 5) + 1
+        elif self.proficiency_points_used <= 585:
+            self.required_level_proficiencies = 50 + ((self.proficiency_points_used - 245) / 2)
+        else:
+            self.required_level_proficiencies = 220 + (self.proficiency_points_used - 585)
+
+        if self.required_level_stats > self.required_level_proficiencies:
+            self.required_level = self.required_level_stats
+        else:
+            self.required_level = self.required_level_proficiencies
+        self.update_stat_totals()
 
     def set_equipment(self, equipment: dict):
         self.equipment = {}
@@ -119,8 +132,7 @@ class Character(EventDispatcher):
                 self.equipment[key][key2] = equipment[key][key2]
 
         self.update_equipment_bonus_totals()
-        self.update_statprof_bonus_totals()
-        self.update_statprof_totals()
+        self.update_stat_totals()
 
     def set_implant(self, index: str, implant: Implant):
         self.implants[index] = implant
@@ -133,20 +145,12 @@ class Character(EventDispatcher):
                     self.equpment_bonus_totals[key2] = 0
                 self.equpment_bonus_totals[key2] += self.equipment[key][key2]
 
-    def update_statprof_bonus_totals(self):
+    def update_stat_totals(self):
         for key in self.stats:
-            if key in self.equpment_bonus_totals:
-                self.stat_bonus_totals = {**self.stat_bonus_totals, f'{key}':(self.profession.stats['stats'][key] + self.equpment_bonus_totals[key])}
+            if key in self.equipment_bonus_totals:
+                self.stat_totals = {**self.stat_totals, f'{key}':(self.stats[key] + self.equipment_bonus_totals[key])}
             else:
-                self.stat_bonus_totals = {**self.stat_bonus_totals, f'{key}':self.profession.stats['stats'][key]}
-        for key in self.proficiencies:
-            self.proficiency_bonus_totals = {**self.proficiency_bonus_totals, f'{key}':self.profession.stats['proficiencies'][key]}
-
-    def update_statprof_totals(self):
-        for key in self.stats:
-            self.stat_totals = {**self.stat_totals, f'{key}':(self.stats[key] + self.stat_bonus_totals[key])}
-        for key in self.proficiencies:
-            self.proficiency_totals = {**self.proficiency_totals, f'{key}':(self.proficiencies[key] + self.proficiency_bonus_totals[key])}
+                self.stat_totals = {**self.stat_totals, f'{key}':self.stats[key]}
 
     def __repr__(self):
         repr_string = f'---Basic Stats---\n\nLevel: {self.level}\nStat points: {self.stat_points}\nProficiency points: {self.proficiency_points}\n\n\n---Allocated stats---\n\n'

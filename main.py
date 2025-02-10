@@ -26,7 +26,7 @@ class BuildScreen(GridLayout):
     
     def profession_select(self):
         element = self.ids.professionSelect
-        self.character.set_profession(Profession(element.text, self.professionData[element.text]))
+        self.character.set_profession(self.professionData[element.text]['stats'], self.professionData[element.text]['proficiencies'])
 
     def level_input(self, action: str):
         element = self.ids.levelInput
@@ -38,6 +38,30 @@ class BuildScreen(GridLayout):
             if not element.text:
                 element.text = '1'
             self.character.set_level(int(element.text))
+    
+    def set_label_color(self, source):
+        if source == 'stats':
+            element = self.ids.sPointsLabel
+            if self.character.stat_points_used > self.character.stat_points:
+                element.color = [1,0,0,1]
+            elif self.character.stat_points_used < self.character.stat_points:
+                element.color = [1,1,0,1]
+            else:
+                element.color = [0,1,0,1]
+        elif source == 'proficiencies':
+            element = self.ids.pPointsLabel
+            if self.character.proficiency_points_used > self.character.proficiency_points:
+                element.color = [1,0,0,1]
+            elif self.character.proficiency_points_used < self.character.proficiency_points:
+                element.color = [1,1,0,1]
+            else:
+                element.color = [0,1,0,1]
+        else:
+            element = self.ids.reqLevel
+            if self.character.required_level > 415:
+                element.color = [1,0,0,1]
+            else:
+                element.color = [1,1,1,1]
 
 
 class BuildApp(App):
