@@ -84,7 +84,7 @@
                             
                             #Input container
                             GridLayout:
-                                cols: 2
+                                cols: 3
                                 size_hint_y: None
                                 height: 60
                                 Label:
@@ -95,6 +95,10 @@
                                     size_hint_y: None
                                     height: 30
                                     text: 'Level'
+                                Label:
+                                    size_hint_y: None
+                                    height: 30
+                                    text: 'Level Req.'
                                 Spinner:
                                     id: professionSelect
                                     size_hint_y: None
@@ -104,13 +108,67 @@
                                     sync_height: True
                                     on_text: root.profession_select()
                                 TextInput:
-                                    multiline: False
+                                    id: levelInput
+                                    text: '1'
+                                    height: 30
                                     input_filter: 'int'
+                                    multiline: False
+                                    on_text: root.level_input('input')
+                                    on_focus:
+                                        if not self.focus: root.level_input('validate')
+                                Label:
                                     size_hint_y: None
                                     height: 30
-                                        
-                            
+                                    text: str(root.character.required_level)
+                        
+                        #Stat allocation subcontainer
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: 90
+                            canvas:
+                                Color:
+                                    rgba: (255,255,255,0.05)
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
 
+                            #Title container
+                            GridLayout:
+                                cols: 2
+                                size_hint_y: None
+                                height: 30
+                                Label:
+                                    text: 'Stats'
+                                    size: self.texture_size
+                                Label:
+                                    text: 'Points used: {}/{}'.format(root.character.stat_points_used, root.character.stat_points)
+                                    size: self.texture_size
+                            
+                            #Input container
+                            BoxLayout:
+                                spacing: 10
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Strength'
+                                    Slider:
+                                        id: strength
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 25
+                                        max: (100 - root.character.stat_bonus_totals['strength'])
+                                        step: 1
+                                        on_value: 
+                                            root.character.set_stat('strength', self.value)
+                                    Label:
+                                        text: '{} ({} + {})'.format(root.character.stat_totals['strength'], root.ids.strength.value, root.character.stat_bonus_totals['strength'])
+                                        size_hint: (None, None)
+                                        height: 30
+                         
                 #Weapon Stats subcontainer
                 GridLayout:
                     cols: 1
