@@ -62,8 +62,7 @@ class Character(EventDispatcher):
     stat_totals = DictProperty({})
     
     def __init__(self):
-        self.update_equipment_bonus_totals()
-        self.update_stat_totals()
+        self.update()
 
     def set_level(self, value: int):
         self.level = value
@@ -80,7 +79,7 @@ class Character(EventDispatcher):
     def set_profession(self, stats: dict, proficiencies: dict):
         self.profession_stats = stats
         self.profession_proficiencies = proficiencies
-        self.update_stat_totals()
+        self.update()
 
     def set_stat(self, key: str, value: int):
         self.stats[key] = int(value)
@@ -100,7 +99,7 @@ class Character(EventDispatcher):
             self.required_level = self.required_level_stats
         else:
             self.required_level = self.required_level_proficiencies
-        self.update_stat_totals()
+        self.update()
 
     def set_proficiency(self, key: str, value: int):
         self.proficiencies[key] = int(value)
@@ -122,28 +121,23 @@ class Character(EventDispatcher):
             self.required_level = self.required_level_stats
         else:
             self.required_level = self.required_level_proficiencies
-        self.update_stat_totals()
+        self.update()
 
-    def set_equipment(self, equipment: dict):
-        self.equipment = {}
-        for key in equipment:
-            self.equipment[key] = {}
-            for key2 in equipment[key]:
-                self.equipment[key][key2] = equipment[key][key2]
-
-        self.update_equipment_bonus_totals()
-        self.update_stat_totals()
+    def set_equipment(self, slot: str, key: str, value: int):
+        self.equipment[slot] = {**self.equipment[slot], f'{key}':value}
+        self.update()
 
     def set_implant(self, index: str, implant: Implant):
         self.implants[index] = implant
 
     def update_equipment_bonus_totals(self):
-        self.equpment_bonus_totals = {}
+        self.equipment_bonus_totals = {}
         for key in self.equipment:
             for key2 in self.equipment[key]:
-                if key2 not in self.equpment_bonus_totals:
-                    self.equpment_bonus_totals[key2] = 0
-                self.equpment_bonus_totals[key2] += self.equipment[key][key2]
+                if key2 not in self.equipment_bonus_totals:
+                    self.equipment_bonus_totals = {**self.equipment_bonus_totals, f'{key2}':0}
+                self.equipment_bonus_totals = {**self.equipment_bonus_totals, f'{key2}':(self.equipment_bonus_totals[key2] + self.equipment[key][key2])}
+        print(self.equipment_bonus_totals)
 
     def update_stat_totals(self):
         for key in self.stats:
@@ -151,6 +145,10 @@ class Character(EventDispatcher):
                 self.stat_totals = {**self.stat_totals, f'{key}':(self.stats[key] + self.equipment_bonus_totals[key])}
             else:
                 self.stat_totals = {**self.stat_totals, f'{key}':self.stats[key]}
+
+    def update(self):
+        self.update_equipment_bonus_totals()
+        self.update_stat_totals()
 
     def __repr__(self):
         repr_string = f'---Basic Stats---\n\nLevel: {self.level}\nStat points: {self.stat_points}\nProficiency points: {self.proficiency_points}\n\n\n---Allocated stats---\n\n'

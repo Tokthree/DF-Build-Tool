@@ -51,7 +51,7 @@
                     #Header container
                     BoxLayout:
                         size_hint_y: None
-                        height: 40
+                        height: 30
                         Label:
                             text: 'Character Stats'
                             size: self.texture_size
@@ -493,13 +493,316 @@
                     #Header container
                     BoxLayout:
                         size_hint_y: None
-                        height: 40
+                        height: 30
                         Label:
-                            text: 'Weapon Stats'
+                            text: 'Equipment Bonuses'
 
                     #Content container
-                    BoxLayout:
-                        orientation: 'vertical'
+                    GridLayout:
+                        cols: 1
+                        padding: 10
+                        spacing: 10
+
+                        #Weapon1 bonuses subcontainer
+                        BoxLayout:
+                            orientation: 'vertical'
+                            canvas:
+                                Color:
+                                    rgba: (255,255,255,0.05)
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            #Title container
+                            BoxLayout:
+                                size_hint_y: None
+                                height: 30
+                                Label:
+                                    text: 'Weapon 1'
+                                    size: self.texture_size
+
+                            #Bonus input container
+                            BoxLayout:
+                                orientation: 'vertical'
+                                spacing: 10
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Accuracy'
+                                    Slider:
+                                        id: w1Accuracy
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 8
+                                        step: 1
+                                        on_value: root.character.set_equipment('weapon1', 'accuracy', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.w1Accuracy.value))
+                                        size_hint: (None, None)
+                                        height: 30
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Reloading'
+                                    Slider:
+                                        id: w1Reloading
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 8
+                                        step: 1
+                                        on_value: root.character.set_equipment('weapon1', 'reloading', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.w1Reloading.value))
+                                        size_hint: (None, None)
+                                        height: 30
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Critical Hit'
+                                    Slider:
+                                        id: w1Critical
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 8
+                                        step: 1
+                                        on_value: root.character.set_equipment('weapon1', 'critical', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.w1Critical.value))
+                                        size_hint: (None, None)
+                                        height: 30
+                        
+                        #Weapon2 bonuses subcontainer
+                        BoxLayout:
+                            orientation: 'vertical'
+                            canvas:
+                                Color:
+                                    rgba: (255,255,255,0.05)
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            #Title container
+                            BoxLayout:
+                                size_hint_y: None
+                                height: 30
+                                Label:
+                                    text: 'Weapon 2'
+                                    size: self.texture_size
+
+                            #Bonus input container
+                            BoxLayout:
+                                orientation: 'vertical'
+                                spacing: 10
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Accuracy'
+                                    Slider:
+                                        id: w2Accuracy
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 8
+                                        step: 1
+                                        on_value: root.character.set_equipment('weapon2', 'accuracy', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.w2Accuracy.value))
+                                        size_hint: (None, None)
+                                        height: 30
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Reloading'
+                                    Slider:
+                                        id: w2Reloading
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 8
+                                        step: 1
+                                        on_value: root.character.set_equipment('weapon2', 'reloading', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.w2Reloading.value))
+                                        size_hint: (None, None)
+                                        height: 30
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Critical Hit'
+                                    Slider:
+                                        id: w2Critical
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 8
+                                        step: 1
+                                        on_value: root.character.set_equipment('weapon2', 'critical', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.w2Critical.value))
+                                        size_hint: (None, None)
+                                        height: 30
+
+                        #Weapon3 bonuses subcontainer
+                        BoxLayout:
+                            orientation: 'vertical'
+                            canvas:
+                                Color:
+                                    rgba: (255,255,255,0.05)
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            #Title container
+                            BoxLayout:
+                                size_hint_y: None
+                                height: 30
+                                Label:
+                                    text: 'Weapon 3'
+                                    size: self.texture_size
+
+                            #Bonus input container
+                            BoxLayout:
+                                orientation: 'vertical'
+                                spacing: 10
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Accuracy'
+                                    Slider:
+                                        id: w3Accuracy
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 8
+                                        step: 1
+                                        on_value: root.character.set_equipment('weapon3', 'accuracy', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.w3Accuracy.value))
+                                        size_hint: (None, None)
+                                        height: 30
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Reloading'
+                                    Slider:
+                                        id: w3Reloading
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 8
+                                        step: 1
+                                        on_value: root.character.set_equipment('weapon3', 'reloading', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.w3Reloading.value))
+                                        size_hint: (None, None)
+                                        height: 30
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Critical Hit'
+                                    Slider:
+                                        id: w3Critical
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 8
+                                        step: 1
+                                        on_value: root.character.set_equipment('weapon3', 'critical', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.w3Critical.value))
+                                        size_hint: (None, None)
+                                        height: 30
+
+                        #Armour bonuses subcontainer
+                        BoxLayout:
+                            orientation: 'vertical'
+                            canvas:
+                                Color:
+                                    rgba: (255,255,255,0.05)
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            #Title container
+                            BoxLayout:
+                                size_hint_y: None
+                                height: 30
+                                Label:
+                                    text: 'Armour'
+                                    size: self.texture_size
+
+                            #Bonus input container
+                            BoxLayout:
+                                orientation: 'vertical'
+                                spacing: 10
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Endurance'
+                                    Slider:
+                                        id: aEndurance
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 24
+                                        step: 1
+                                        on_value: root.character.set_equipment('armour', 'endurance', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.aEndurance.value))
+                                        size_hint: (None, None)
+                                        height: 30
+                                BoxLayout:
+                                    orientation: 'horizontal'
+                                    spacing: 10
+                                    Label:
+                                        size_hint: (None, None)
+                                        height: 30
+                                        text: 'Agility'
+                                    Slider:
+                                        id: aAgility
+                                        size_hint_y: None
+                                        height: 30
+                                        min: 0
+                                        max: 24
+                                        step: 1
+                                        on_value: root.character.set_equipment('armour', 'agility', int(self.value))
+                                    Label:
+                                        text: '{}'.format(int(root.ids.aAgility.value))
+                                        size_hint: (None, None)
+                                        height: 30
 
                 #Total Stats subcontainer
                 GridLayout:
@@ -515,7 +818,7 @@
                     #Header container
                     BoxLayout:
                         size_hint_y: None
-                        height: 40
+                        height: 30
                         Label:
                             text: 'Total Stats'
 
