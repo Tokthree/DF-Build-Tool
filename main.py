@@ -26,7 +26,7 @@ class BuildScreen(GridLayout):
     
     def profession_select(self):
         element = self.ids.professionSelect
-        self.character.set_profession(self.professionData[element.text]['stats'], self.professionData[element.text]['proficiencies'])
+        self.character.set_profession(element.text, self.professionData[element.text]['stats'], self.professionData[element.text]['proficiencies'])
 
     def level_input(self, action: str):
         element = self.ids.levelInput

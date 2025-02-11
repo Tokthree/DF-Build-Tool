@@ -1,4 +1,4 @@
-from kivy.properties import NumericProperty, DictProperty, ListProperty
+from kivy.properties import NumericProperty, DictProperty, ListProperty, StringProperty
 from kivy.uix.behaviors.codenavigation import EventDispatcher
 
 class Implant():
@@ -11,6 +11,7 @@ class Character(EventDispatcher):
     required_level = NumericProperty(1)
     required_level_stats = NumericProperty(1)
     required_level_proficiencies = NumericProperty(1)
+    profession_name = StringProperty('Production / Roleplay')
     profession_stats = DictProperty({
         'strength':0,
         'endurance':0,
@@ -76,7 +77,8 @@ class Character(EventDispatcher):
             self.stat_points = 415 + (value - 220)
             self.proficiency_points = 585 + (value - 220)
 
-    def set_profession(self, stats: dict, proficiencies: dict):
+    def set_profession(self, name: str, stats: dict, proficiencies: dict):
+        self.profession_name = name
         self.profession_stats = stats
         self.profession_proficiencies = proficiencies
         self.update()
@@ -131,12 +133,16 @@ class Character(EventDispatcher):
         self.implants[index] = implant
 
     def update_equipment_bonus_totals(self):
-        self.equipment_bonus_totals = {}
+        equipment_bonus_totals_temp = {}
         for key in self.equipment:
             for key2 in self.equipment[key]:
-                if key2 not in self.equipment_bonus_totals:
-                    self.equipment_bonus_totals = {**self.equipment_bonus_totals, f'{key2}':0}
-                self.equipment_bonus_totals = {**self.equipment_bonus_totals, f'{key2}':(self.equipment_bonus_totals[key2] + self.equipment[key][key2])}
+                if key2 not in equipment_bonus_totals_temp:
+                    equipment_bonus_totals_temp[key2] = 0
+                equipment_bonus_totals_temp[key2] += self.equipment[key][key2]
+        self.equipment_bonus_totals = equipment_bonus_totals_temp 
+                #if key2 not in self.equipment_bonus_totals:
+                    #self.equipment_bonus_totals = {**self.equipment_bonus_totals, f'{key2}':0}
+                #self.equipment_bonus_totals = {**self.equipment_bonus_totals, f'{key2}':(self.equipment_bonus_totals[key2] + self.equipment[key][key2])}
         print(self.equipment_bonus_totals)
 
     def update_stat_totals(self):
