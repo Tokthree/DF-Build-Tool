@@ -1,1356 +1,819 @@
 #:kivy 2.1.0
 
+#Custom Definitions
+<HeaderContainer@FloatLayout>:
+    size_hint_y: None
+    height: 40
+    canvas:
+        Color:
+            rgba: (0,0,0,0.6)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<HeaderSubContainerRight@BoxLayout>:
+    orientation: 'horizontal'
+    size_hint: (None, None)
+    pos_hint: {'right': 1, 'top': 1}
+    height: 40
+
+<FooterContainer@FloatLayout>:
+    size_hint_y: None
+    height: 40
+    canvas:
+        Color:
+            rgba: (0,0,0,0.6)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<PanelHeader@FloatLayout>:
+    size_hint_y: None
+    height: 30
+
+<PanelHeaderSubContainerRight@BoxLayout>:
+    orientation: 'horizontal'
+    size_hint: (None, None)
+    pos_hint: {'right': 1, 'top': 1}
+    height: 30
+
+<PanelContainer@BoxLayout>:
+    orientation: 'vertical'
+    spacing: 5
+    padding: 10
+    canvas:
+        Color:
+            rgba: (0,0,0,0.6)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+<PanelSubContainer@BoxLayout>:
+    orientation: 'vertical'
+    size_hint_y: None
+    spacing: 10
+    padding: 5
+    canvas:
+        Color:
+            rgba: (1,1,1,0.1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<ContentContainer@BoxLayout>:
+    orientation: 'vertical'
+    spacing: 10
+
+<ContentContainerSingleVertical@BoxLayout>:
+    orientation: 'vertical'
+    spacing: 5
+    
+<SliderInputContainer@BoxLayout>:
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: 30
+    spacing: 5
+
+<StatTotalContainer@FloatLayout>:
+    size_hint_y: None
+    height: 30
+
+<MinWidthLabel@Label>:
+    size_hint_x: None
+    size: self.texture_size
+
+<MinHeightLabel@Label>:
+    size_hint_y: None
+    size: self.texture_size
+
+<StatLabel@Label>
+    size_hint_x: None
+    width: 100
+
+<StatOutputLabel@Label>:
+    size_hint_x: None
+    width: 125
+
+<StatTotalLabel@Label>:
+    size_hint_x: None
+    pos_hint: {'x': 0, 'top': 1}
+
+<StatTotalOutputLabel@Label>:
+    size_hint_x: None
+    pos_hint: {'right': 1, 'top': 1}
+
+<Button>:
+    background_color: (1,1,1,0.4)
+    border: (0,0,0,0)
+
+<HeaderButton@Button>:
+    size_hint: (None, None)
+    pos_hint: {'right': 1, 'top': 1}
+    width: 30
+    height: 30
+
+<Spinner>:
+    size_hint_y: None
+    height: 30
+    background_color: (.1,.1,.1,.8)
+    background_normal: ''
+    border: (1,1,1,1)
+    values: []
+    sync_height: True
+
+<SpinnerOption>:
+    background_color: (.1,.1,.1,.8)
+    background_normal: ''
+    border: (1,1,1,1)
+
+<TextInput>:
+    size_hint: (None, None)
+    height: 30
+    input_filter: 'int'
+    multiline: False
+
+<StatSlider@Slider>:
+    step: 1
+    cursor_image: './images/UI Assets/SliderCursor.png'
+    cursor_size: (20,20)
+    value_track: True
+    value_track_color: '#710000'
+    background_horizontal: './images/UI Assets/SliderBackground.png'
+    background_width: 7
+
+<ButtonImage@Image>
+    size: self.parent.size
+    y: self.parent.y
+    x: self.parent.x
+    
+#UI Definition
 <BuildScreen>:
-    cols: 1
+    orientation: 'vertical'
     canvas.before:
         Rectangle:
             source: './images/background.jpg'
             size: self.size
-            pos:self.pos
+            pos: self.pos
 
     #Header container
-    BoxLayout:
-        size_hint_y: None
-        height: 40
-        canvas:
-            Color:
-                rgba: (0,0,0,0.6)
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        Label:
+    HeaderContainer:
+        MinWidthLabel:
             text: 'Dead Frontier Build Tool'
-            size: self.texture_size
+            pos_hint: root.style.pos_float_center
+        HeaderSubContainerRight:
+            width: 120
+            Button:
+                on_press: root.button_manager('copy')
+                ButtonImage:
+                    source: './images/icons/clipboard.png'
+            Button:
+                on_press: root.button_manager('open')
+                ButtonImage:
+                    source: './images/icons/open.png'
+            Button:
+                on_press: root.button_manager('save')
+                ButtonImage:
+                    source: './images/icons/save.png'
 
     #Content container
     GridLayout:
-        cols: 1
-        padding: 20
+        cols: 3
+        spacing: 10
+        padding: 10
 
-        #Content subcontainer
-        BoxLayout:
-            orientation: 'vertical'
-            spacing: 20
+        #Character stats subcontainer
+        PanelContainer:
+            
+            #Header container
+            PanelHeader:
+                MinWidthLabel:
+                    text: 'Character Stats'
+                    pos_hint: root.style.pos_float_left_nogap
+                HeaderButton:
+                    on_press: root.button_manager('reset', 'stats')
+                    ButtonImage:
+                        source: './images/icons/reset.png'
 
-            #Stats container
-            GridLayout:
-                cols: 3
-                spacing: 20
-
-                #Character Stats subcontainer
-                GridLayout:
-                    cols: 1
-                    spacing: 10
-                    canvas:
-                        Color:
-                            rgba: (0,0,0,0.6)
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
-
-                    #Header container
-                    BoxLayout:
-                        size_hint_y: None
-                        height: 30
-                        Label:
-                            text: 'Character Stats'
-                            size: self.texture_size
-
-                    #Content container
+            #Content container
+            ContentContainer:
+                #Base stats subcontainer
+                PanelSubContainer:
+                    MinHeightLabel:
+                        text: 'Base Stats'
                     GridLayout:
-                        cols: 1
-                        padding: 10
+                        cols: 3
                         spacing: 10
-
-                        #Base stats subcontainer
-                        BoxLayout:
-                            orientation: 'vertical'
+                        MinHeightLabel:
+                            text: 'Profession'
+                        MinHeightLabel:
+                            text: 'Level'
+                        MinHeightLabel:
+                            text: 'Level Req.'
+                        Spinner:
+                            id: pSelect
+                            text: 'Production / Roleplay'
+                            on_text: root.profession_select()
+                        AnchorLayout:
                             size_hint_y: None
-                            height: 90
-                            canvas:
-                                Color:
-                                    rgba: (255,255,255,0.05)
-                                Rectangle:
-                                    size: self.size
-                                    pos: self.pos
-
-                            #Title container
-                            BoxLayout:
-                                size_hint_y: None
-                                height: 30
-                                Label:
-                                    text: 'Base Stats'
-                                    size: self.texture_size
-                            
-                            #Input container
-                            GridLayout:
-                                cols: 3
-                                size_hint_y: None
-                                height: 60
-                                Label:
-                                    size_hint_y: None
-                                    height: 30
-                                    text: 'Profession'
-                                Label:
-                                    size_hint_y: None
-                                    height: 30
-                                    text: 'Level'
-                                Label:
-                                    size_hint_y: None
-                                    height: 30
-                                    text: 'Level Req.'
-                                Spinner:
-                                    id: professionSelect
-                                    size_hint_y: None
-                                    height: 30
-                                    text: 'Production / Roleplay'
-                                    values: []
-                                    sync_height: True
-                                    on_text: root.profession_select()
-                                TextInput:
-                                    id: levelInput
-                                    text: '1'
-                                    height: 30
-                                    input_filter: 'int'
-                                    multiline: False
-                                    on_text: root.level_input('input')
-                                    on_focus:
-                                        if not self.focus: root.level_input('validate')
-                                Label:
-                                    id: reqLevel
-                                    size_hint_y: None
-                                    height: 30
-                                    text: str(int(root.character.required_level))
-                                    on_text:
-                                        root.set_label_color('reqLevel')
-                        
-                        #Stat allocation subcontainer
-                        BoxLayout:
-                            orientation: 'vertical'
-                            canvas:
-                                Color:
-                                    rgba: (255,255,255,0.05)
-                                Rectangle:
-                                    size: self.size
-                                    pos: self.pos
-
-                            #Title container
-                            GridLayout:
-                                cols: 2
-                                size_hint_y: None
-                                height: 30
-                                Label:
-                                    text: 'Stats'
-                                    size: self.texture_size
-                                BoxLayout:
-                                    Label:
-                                        text: 'Points used: '
-                                        size_hint: (None, None)
-                                        height: 30
-                                    Label:
-                                        id: sPointsLabel
-                                        text: '{}/{}'.format(root.character.stat_points_used, root.character.stat_points)
-                                        color: [0,1,0,1]
-                                        size_hint: (None, None)
-                                        height: 30
-                                        on_text:
-                                            root.set_label_color('stats')
-                            
-                            #Stat input container
-                            BoxLayout:
-                                orientation: 'vertical'
-                                spacing: 10
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Strength'
-                                    Slider:
-                                        id: strength
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (25 + root.character.profession_stats['strength'])
-                                        max: 100
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_stat('strength', self.value)
-                                    Label:
-                                        text: '{} ({} + 0 + {})'.format(root.character.stat_totals['strength'], (root.ids.strength.value - root.character.profession_stats['strength']), root.character.profession_stats['strength'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Endurance'
-                                    Slider:
-                                        id: endurance
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (25 + root.character.profession_stats['endurance'])
-                                        max: 100
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_stat('endurance', self.value)
-                                    Label:
-                                        text: '{} ({} + {} + {})'.format(root.character.stat_totals['endurance'], (root.ids.endurance.value - root.character.profession_stats['endurance']), root.character.equipment_bonus_totals['endurance'] if 'endurance' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['endurance'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Agility'
-                                    Slider:
-                                        id: agility
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (25 + root.character.profession_stats['agility'])
-                                        max: 100
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_stat('agility', self.value)
-                                    Label:
-                                        text: '{} ({} + {} + {})'.format(root.character.stat_totals['agility'], (root.ids.agility.value - root.character.profession_stats['agility']), root.character.equipment_bonus_totals['agility'] if 'agility' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['agility'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Accuracy'
-                                    Slider:
-                                        id: accuracy
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (25 + root.character.profession_stats['accuracy'])
-                                        max: 100
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_stat('accuracy', self.value)
-                                    Label:
-                                        text: '{} ({} + {} + {})'.format(root.character.stat_totals['accuracy'], (root.ids.accuracy.value - root.character.profession_stats['accuracy']), root.character.equipment_bonus_totals['accuracy'] if 'accuracy' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['accuracy'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Critical Hit'
-                                    Slider:
-                                        id: critical
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (25 + root.character.profession_stats['critical'])
-                                        max: 100
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_stat('critical', self.value)
-                                    Label:
-                                        text: '{} ({} + {} + {})'.format(root.character.stat_totals['critical'], (root.ids.critical.value - root.character.profession_stats['critical']), root.character.equipment_bonus_totals['critical'] if 'critical' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['critical'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Reloading'
-                                    Slider:
-                                        id: reloading
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (25 + root.character.profession_stats['reloading'])
-                                        max: 100
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_stat('reloading', self.value)
-                                    Label:
-                                        text: '{} ({} + {} + {})'.format(root.character.stat_totals['reloading'], (root.ids.reloading.value - root.character.profession_stats['reloading']), root.character.equipment_bonus_totals['reloading'] if 'reloading' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['reloading'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Dexterity'
-                                    Slider:
-                                        id: dexterity
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (0 + root.character.profession_stats['dexterity'])
-                                        max: 100
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_stat('dexterity', self.value)
-                                    Label:
-                                        text: '{} ({} + 0 + {})'.format(root.character.stat_totals['dexterity'], int(root.ids.dexterity.value - root.character.profession_stats['dexterity']), root.character.profession_stats['dexterity'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Stealth'
-                                    Slider:
-                                        id: stealth
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (0 + root.character.profession_stats['stealth'])
-                                        max: 100
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_stat('stealth', self.value)
-                                    Label:
-                                        text: '{} ({} + 0 + {})'.format(root.character.stat_totals['stealth'], int(root.ids.stealth.value - root.character.profession_stats['stealth']), root.character.profession_stats['stealth'])
-                                        size_hint: (None, None)
-                                        height: 30
-                            
-                        #Proficiency allocation subcontainer
-                        BoxLayout:
-                            orientation: 'vertical'
-                            canvas:
-                                Color:
-                                    rgba: (255,255,255,0.05)
-                                Rectangle:
-                                    size: self.size
-                                    pos: self.pos
-
-                            #Title container
-                            GridLayout:
-                                cols: 2
-                                size_hint_y: None
-                                height: 30
-                                Label:
-                                    text: 'Proficiencies'
-                                    size: self.texture_size
-                                BoxLayout:
-                                    Label:
-                                        text: 'Points used: '
-                                        size_hint: (None, None)
-                                        height: 30
-                                    Label:
-                                        id: pPointsLabel
-                                        text: '{}/{}'.format(root.character.proficiency_points_used, root.character.proficiency_points)
-                                        color: [0,1,0,1]
-                                        size_hint: (None, None)
-                                        height: 30
-                                        on_text:
-                                            root.set_label_color('proficiencies')
-
-                            #Proficiency input container
-                            BoxLayout:
-                                orientation: 'vertical'
-                                spacing: 10
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Melee'
-                                    Slider:
-                                        id: melee
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (5 + root.character.profession_proficiencies['melee'])
-                                        max: 135
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_proficiency('melee', self.value)
-                                    Label:
-                                        text: '{} ({} + {})'.format(root.character.proficiencies['melee'], int(root.ids.melee.value - root.character.profession_proficiencies['melee']), root.character.profession_proficiencies['melee'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Pistols'
-                                    Slider:
-                                        id: pistols
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (5 + root.character.profession_proficiencies['pistols'])
-                                        max: 135
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_proficiency('pistols', self.value)
-                                    Label:
-                                        text: '{} ({} + {})'.format(root.character.proficiencies['pistols'], int(root.ids.pistols.value - root.character.profession_proficiencies['pistols']), root.character.profession_proficiencies['pistols'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Rifles'
-                                    Slider:
-                                        id: rifles
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (0 + root.character.profession_proficiencies['rifles'])
-                                        max: 135
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_proficiency('rifles', self.value)
-                                    Label:
-                                        text: '{} ({} + {})'.format(root.character.proficiencies['rifles'], int(root.ids.rifles.value - root.character.profession_proficiencies['rifles']), root.character.profession_proficiencies['rifles'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Shotguns'
-                                    Slider:
-                                        id: shotguns
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (0 + root.character.profession_proficiencies['shotguns'])
-                                        max: 135
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_proficiency('shotguns', self.value)
-                                    Label:
-                                        text: '{} ({} + {})'.format(root.character.proficiencies['shotguns'], int(root.ids.shotguns.value - root.character.profession_proficiencies['shotguns']), root.character.profession_proficiencies['shotguns'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Machineguns'
-                                    Slider:
-                                        id: machineguns
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (0 + root.character.profession_proficiencies['machineguns'])
-                                        max: 135
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_proficiency('machineguns', self.value)
-                                    Label:
-                                        text: '{} ({} + {})'.format(root.character.proficiencies['machineguns'], int(root.ids.machineguns.value - root.character.profession_proficiencies['machineguns']), root.character.profession_proficiencies['machineguns'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Explosives'
-                                    Slider:
-                                        id: explosives
-                                        size_hint_y: None
-                                        height: 30
-                                        min: (0 + root.character.profession_proficiencies['explosives'])
-                                        max: 135
-                                        step: 1
-                                        on_value: 
-                                            root.character.set_proficiency('explosives', self.value)
-                                    Label:
-                                        text: '{} ({} + {})'.format(root.character.proficiencies['explosives'], int(root.ids.explosives.value - root.character.profession_proficiencies['explosives']), root.character.profession_proficiencies['explosives'])
-                                        size_hint: (None, None)
-                                        height: 30
-                                
-                         
-                #Weapon Stats subcontainer
-                GridLayout:
-                    cols: 1
-                    spacing: 10
-                    canvas:
-                        Color:
-                            rgba: (0,0,0,0.6)
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
-
-                    #Header container
-                    BoxLayout:
-                        size_hint_y: None
-                        height: 30
+                            height: 30
+                            TextInput:
+                                id: lInput
+                                text: '1'
+                                on_text: root.level_input('input')
+                                on_focus:
+                                    if not self.focus: root.level_input('validate')
                         Label:
-                            text: 'Equipment Bonuses'
-
-                    #Content container
-                    GridLayout:
-                        cols: 1
-                        padding: 10
-                        spacing: 10
-
-                        #Weapon1 bonuses subcontainer
-                        BoxLayout:
-                            orientation: 'vertical'
-                            canvas:
-                                Color:
-                                    rgba: (255,255,255,0.05)
-                                Rectangle:
-                                    size: self.size
-                                    pos: self.pos
-
-                            #Title container
-                            BoxLayout:
-                                size_hint_y: None
-                                height: 30
-                                Label:
-                                    text: 'Weapon 1'
-                                    size: self.texture_size
-
-                            #Bonus input container
-                            BoxLayout:
-                                orientation: 'vertical'
-                                spacing: 10
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Accuracy'
-                                    Slider:
-                                        id: w1Accuracy
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 8
-                                        step: 1
-                                        on_value: root.character.set_equipment('weapon1', 'accuracy', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.w1Accuracy.value))
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Reloading'
-                                    Slider:
-                                        id: w1Reloading
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 8
-                                        step: 1
-                                        on_value: root.character.set_equipment('weapon1', 'reloading', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.w1Reloading.value))
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Critical Hit'
-                                    Slider:
-                                        id: w1Critical
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 8
-                                        step: 1
-                                        on_value: root.character.set_equipment('weapon1', 'critical', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.w1Critical.value))
-                                        size_hint: (None, None)
-                                        height: 30
+                            id: reqLevel
+                            text: str(int(root.character.required_level))
+                            on_text:
+                                root.set_label_color('reqLevel')
+                    
+                #Stat input subcontainer
+                PanelSubContainer:
+                    height: 325
+                    PanelHeader:
+                        MinWidthLabel:
+                            text: 'Stats'
+                            pos_hint: root.style.pos_float_center
+                        PanelHeaderSubContainerRight:
+                            width: 140
+                            MinWidthLabel:
+                                text: 'Points Used: '
+                            MinWidthLabel:
+                                id: sPointsLabel
+                                text: '{}/{}'.format(root.character.stat_points_used, root.character.stat_points)
+                                color: [0,1,0,1]
+                                on_text:
+                                    root.set_label_color('stats')
+                    ContentContainerSingleVertical:
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Strength:'
+                            StatSlider:
+                                id: strength
+                                min: (25 + root.character.profession_stats['strength'])
+                                max: 100
+                                on_value: 
+                                    root.character.set_stat('strength', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['strength'], (root.ids.strength.value - root.character.profession_stats['strength']), root.character.equipment_bonus_totals['strength'] if 'strength' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['strength'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Endurance:'
+                            StatSlider:
+                                id: endurance
+                                min: (25 + root.character.profession_stats['endurance'])
+                                max: 100
+                                on_value: 
+                                    root.character.set_stat('endurance', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['endurance'], (root.ids.endurance.value - root.character.profession_stats['endurance']), root.character.equipment_bonus_totals['endurance'] if 'endurance' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['endurance'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Agility:'
+                            StatSlider:
+                                id: agility
+                                min: (25 + root.character.profession_stats['agility'])
+                                max: 100
+                                on_value: 
+                                    root.character.set_stat('agility', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['agility'], (root.ids.agility.value - root.character.profession_stats['agility']), root.character.equipment_bonus_totals['agility'] if 'agility' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['agility'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Accuracy:'
+                            StatSlider:
+                                id: accuracy
+                                min: (25 + root.character.profession_stats['accuracy'])
+                                max: 100
+                                on_value: 
+                                    root.character.set_stat('accuracy', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['accuracy'], (root.ids.accuracy.value - root.character.profession_stats['accuracy']), root.character.equipment_bonus_totals['accuracy'] if 'accuracy' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['accuracy'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Critical Hit:'
+                            StatSlider:
+                                id: critical
+                                min: (25 + root.character.profession_stats['critical'])
+                                max: 100
+                                on_value: 
+                                    root.character.set_stat('critical', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['critical'], (root.ids.critical.value - root.character.profession_stats['critical']), root.character.equipment_bonus_totals['critical'] if 'critical' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['critical'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Reloading:'
+                            StatSlider:
+                                id: reloading
+                                min: (25 + root.character.profession_stats['reloading'])
+                                max: 100
+                                on_value: 
+                                    root.character.set_stat('reloading', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['reloading'], (root.ids.reloading.value - root.character.profession_stats['reloading']), root.character.equipment_bonus_totals['reloading'] if 'reloading' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['reloading'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Dexterity:'
+                            StatSlider:
+                                id: dexterity
+                                min: (0 + root.character.profession_stats['dexterity'])
+                                max: 100
+                                on_value: 
+                                    root.character.set_stat('dexterity', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['dexterity'], (int(root.ids.dexterity.value) - root.character.profession_stats['dexterity']), root.character.equipment_bonus_totals['dexterity'] if 'dexterity' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['dexterity'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Stealth:'
+                            StatSlider:
+                                id: stealth
+                                min: (0 + root.character.profession_stats['stealth'])
+                                max: 100
+                                on_value: 
+                                    root.character.set_stat('stealth', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['stealth'], (int(root.ids.stealth.value) - root.character.profession_stats['stealth']), root.character.equipment_bonus_totals['stealth'] if 'stealth' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['stealth'])
                         
-                        #Weapon2 bonuses subcontainer
-                        BoxLayout:
-                            orientation: 'vertical'
-                            canvas:
-                                Color:
-                                    rgba: (255,255,255,0.05)
-                                Rectangle:
-                                    size: self.size
-                                    pos: self.pos
+                #Proficiency input subcontainer
+                PanelSubContainer:
+                    height: 255
+                    PanelHeader:
+                        MinWidthLabel:
+                            text: 'Proficiencies'
+                            pos_hint: root.style.pos_float_center
+                        PanelHeaderSubContainerRight:
+                            width: 140
+                            MinWidthLabel:
+                                text: 'Points Used: '
+                            MinWidthLabel:
+                                id: pPointsLabel
+                                text: '{}/{}'.format(root.character.proficiency_points_used, root.character.proficiency_points)
+                                color: [0,1,0,1]
+                                on_text:
+                                    root.set_label_color('proficiencies')
+                    ContentContainerSingleVertical:
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Melee:'
+                            StatSlider:
+                                id: melee
+                                min: (5 + root.character.profession_proficiencies['melee'])
+                                max: 135
+                                on_value: 
+                                    root.character.set_proficiency('melee', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {})'.format(root.character.proficiencies['melee'], int(root.ids.melee.value - root.character.profession_proficiencies['melee']), root.character.profession_proficiencies['melee'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Pistols:'
+                            StatSlider:
+                                id: pistols
+                                min: (5 + root.character.profession_proficiencies['pistols'])
+                                max: 135
+                                on_value: 
+                                    root.character.set_proficiency('pistols', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {})'.format(root.character.proficiencies['pistols'], int(root.ids.pistols.value - root.character.profession_proficiencies['pistols']), root.character.profession_proficiencies['pistols'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Rifles:'
+                            StatSlider:
+                                id: rifles
+                                min: root.character.profession_proficiencies['rifles']
+                                max: 135
+                                on_value: 
+                                    root.character.set_proficiency('rifles', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {})'.format(root.character.proficiencies['rifles'], int(root.ids.rifles.value - root.character.profession_proficiencies['rifles']), root.character.profession_proficiencies['rifles'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Shotguns:'
+                            StatSlider:
+                                id: shotguns
+                                min: root.character.profession_proficiencies['shotguns']
+                                max: 135
+                                on_value: 
+                                    root.character.set_proficiency('shotguns', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {})'.format(root.character.proficiencies['shotguns'], int(root.ids.shotguns.value - root.character.profession_proficiencies['shotguns']), root.character.profession_proficiencies['shotguns'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Machineguns:'
+                            StatSlider:
+                                id: machineguns
+                                min: root.character.profession_proficiencies['machineguns']
+                                max: 135
+                                on_value: 
+                                    root.character.set_proficiency('machineguns', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {})'.format(root.character.proficiencies['machineguns'], int(root.ids.machineguns.value - root.character.profession_proficiencies['machineguns']), root.character.profession_proficiencies['machineguns'])
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Explosives:'
+                            StatSlider:
+                                id: explosives
+                                min: root.character.profession_proficiencies['explosives']
+                                max: 135
+                                on_value: 
+                                    root.character.set_proficiency('explosives', self.value)
+                            StatOutputLabel:
+                                text: '{} ({} + {})'.format(root.character.proficiencies['explosives'], int(root.ids.explosives.value - root.character.profession_proficiencies['explosives']), root.character.profession_proficiencies['explosives'])
+                        
+                BoxLayout:
+                    
+        #Weapon stats subcontainer
+        PanelContainer:
+            
+            #Header container
+            PanelHeader:
+                MinWidthLabel:
+                    text: 'Equipment Stats'
+                    pos_hint: root.style.pos_float_left_nogap
+                HeaderButton:
+                    on_press: root.button_manager('reset', 'equipment')
+                    ButtonImage:
+                        source: './images/icons/reset.png'
+            
+            #Content container
+            ContentContainer:
+                #Weapon1 bonuses subcontainer
+                PanelSubContainer:
+                    height: 150
+                    PanelHeader:
+                        MinWidthLabel:
+                            text: 'Weapon 1'
+                            pos_hint: root.style.pos_float_center
+                    ContentContainerSingleVertical:
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Accuracy:'
+                            StatSlider:
+                                id: w1Accuracy
+                                min: 0
+                                max: 8
+                                on_value: 
+                                    root.character.set_equipment('weapon1', 'accuracy', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.w1Accuracy.value))
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Reloading:'
+                            StatSlider:
+                                id: w1Reloading
+                                min: 0
+                                max: 8
+                                on_value: 
+                                    root.character.set_equipment('weapon1', 'reloading', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.w1Reloading.value))
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Critical Hit:'
+                            StatSlider:
+                                id: w1Critical
+                                min: 0
+                                max: 8
+                                on_value: 
+                                    root.character.set_equipment('weapon1', 'critical', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.w1Critical.value))
+                
+                #Weapon2 bonuses subcontainer
+                PanelSubContainer:
+                    height: 150
+                    PanelHeader:
+                        MinWidthLabel:
+                            text: 'Weapon 2'
+                            pos_hint: root.style.pos_float_center
+                    ContentContainerSingleVertical:
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Accuracy:'
+                            StatSlider:
+                                id: w2Accuracy
+                                min: 0
+                                max: 8
+                                on_value: 
+                                    root.character.set_equipment('weapon2', 'accuracy', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.w2Accuracy.value))
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Reloading:'
+                            StatSlider:
+                                id: w2Reloading
+                                min: 0
+                                max: 8
+                                on_value: 
+                                    root.character.set_equipment('weapon2', 'reloading', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.w2Reloading.value))
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Critical Hit:'
+                            StatSlider:
+                                id: w2Critical
+                                min: 0
+                                max: 8
+                                on_value: 
+                                    root.character.set_equipment('weapon2', 'critical', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.w2Critical.value))
+                
+                #Weapon3 bonuses subcontainer
+                PanelSubContainer:
+                    height: 150
+                    PanelHeader:
+                        MinWidthLabel:
+                            text: 'Weapon 3'
+                            pos_hint: root.style.pos_float_center
+                    ContentContainerSingleVertical:
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Accuracy:'
+                            StatSlider:
+                                id: w3Accuracy
+                                min: 0
+                                max: 8
+                                on_value: 
+                                    root.character.set_equipment('weapon3', 'accuracy', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.w3Accuracy.value))
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Reloading:'
+                            StatSlider:
+                                id: w3Reloading
+                                min: 0
+                                max: 8
+                                on_value: 
+                                    root.character.set_equipment('weapon3', 'reloading', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.w3Reloading.value))
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Critical Hit:'
+                            StatSlider:
+                                id: w3Critical
+                                min: 0
+                                max: 8
+                                on_value: 
+                                    root.character.set_equipment('weapon3', 'critical', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.w3Critical.value))
+                
+                #Armour bonuses subcontainer
+                PanelSubContainer:
+                    height: 115
+                    PanelHeader:
+                        MinWidthLabel:
+                            text: 'Armour'
+                            pos_hint: root.style.pos_float_center
+                    ContentContainerSingleVertical:
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Endurance:'
+                            StatSlider:
+                                id: aEndurance
+                                min: 0
+                                max: 24
+                                on_value: 
+                                    root.character.set_equipment('armour', 'endurance', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.aEndurance.value))
+                        SliderInputContainer:
+                            StatLabel:
+                                text: 'Agility:'
+                            StatSlider:
+                                id: aAgility
+                                min: 0
+                                max: 24
+                                on_value: 
+                                    root.character.set_equipment('armour', 'agility', int(self.value))
+                            StatOutputLabel:
+                                text: '{}'.format(int(root.ids.aAgility.value))
 
-                            #Title container
-                            BoxLayout:
-                                size_hint_y: None
-                                height: 30
-                                Label:
-                                    text: 'Weapon 2'
-                                    size: self.texture_size
+                BoxLayout:
+                
+        #Total stats subcontainer
+        PanelContainer:
 
-                            #Bonus input container
-                            BoxLayout:
-                                orientation: 'vertical'
-                                spacing: 10
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Accuracy'
-                                    Slider:
-                                        id: w2Accuracy
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 8
-                                        step: 1
-                                        on_value: root.character.set_equipment('weapon2', 'accuracy', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.w2Accuracy.value))
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Reloading'
-                                    Slider:
-                                        id: w2Reloading
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 8
-                                        step: 1
-                                        on_value: root.character.set_equipment('weapon2', 'reloading', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.w2Reloading.value))
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Critical Hit'
-                                    Slider:
-                                        id: w2Critical
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 8
-                                        step: 1
-                                        on_value: root.character.set_equipment('weapon2', 'critical', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.w2Critical.value))
-                                        size_hint: (None, None)
-                                        height: 30
+            #Header container
+            PanelHeader:
+                MinWidthLabel:
+                    text: 'Total Stats'
+                    pos_hint: root.style.pos_float_left_nogap
+                HeaderButton:
+                    on_press: root.button_manager('reset', 'all')
+                    ButtonImage:
+                        source: './images/icons/reset.png'
 
-                        #Weapon3 bonuses subcontainer
-                        BoxLayout:
-                            orientation: 'vertical'
-                            canvas:
-                                Color:
-                                    rgba: (255,255,255,0.05)
-                                Rectangle:
-                                    size: self.size
-                                    pos: self.pos
-
-                            #Title container
-                            BoxLayout:
-                                size_hint_y: None
-                                height: 30
-                                Label:
-                                    text: 'Weapon 3'
-                                    size: self.texture_size
-
-                            #Bonus input container
-                            BoxLayout:
-                                orientation: 'vertical'
-                                spacing: 10
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Accuracy'
-                                    Slider:
-                                        id: w3Accuracy
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 8
-                                        step: 1
-                                        on_value: root.character.set_equipment('weapon3', 'accuracy', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.w3Accuracy.value))
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Reloading'
-                                    Slider:
-                                        id: w3Reloading
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 8
-                                        step: 1
-                                        on_value: root.character.set_equipment('weapon3', 'reloading', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.w3Reloading.value))
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Critical Hit'
-                                    Slider:
-                                        id: w3Critical
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 8
-                                        step: 1
-                                        on_value: root.character.set_equipment('weapon3', 'critical', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.w3Critical.value))
-                                        size_hint: (None, None)
-                                        height: 30
-
-                        #Armour bonuses subcontainer
-                        BoxLayout:
-                            orientation: 'vertical'
-                            canvas:
-                                Color:
-                                    rgba: (255,255,255,0.05)
-                                Rectangle:
-                                    size: self.size
-                                    pos: self.pos
-
-                            #Title container
-                            BoxLayout:
-                                size_hint_y: None
-                                height: 30
-                                Label:
-                                    text: 'Armour'
-                                    size: self.texture_size
-
-                            #Bonus input container
-                            BoxLayout:
-                                orientation: 'vertical'
-                                spacing: 10
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Endurance'
-                                    Slider:
-                                        id: aEndurance
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 24
-                                        step: 1
-                                        on_value: root.character.set_equipment('armour', 'endurance', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.aEndurance.value))
-                                        size_hint: (None, None)
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint: (None, None)
-                                        height: 30
-                                        text: 'Agility'
-                                    Slider:
-                                        id: aAgility
-                                        size_hint_y: None
-                                        height: 30
-                                        min: 0
-                                        max: 24
-                                        step: 1
-                                        on_value: root.character.set_equipment('armour', 'agility', int(self.value))
-                                    Label:
-                                        text: '{}'.format(int(root.ids.aAgility.value))
-                                        size_hint: (None, None)
-                                        height: 30
-
-                #Total Stats subcontainer
-                GridLayout:
-                    cols: 1
+            #Content container
+            ContentContainer:
+                
+                #Totals container
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: 325
                     spacing: 10
-                    canvas:
-                        Color:
-                            rgba: (0,0,0,0.6)
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
 
-                    #Header container
-                    BoxLayout:
-                        size_hint_y: None
-                        height: 30
-                        Label:
-                            text: 'Total Stats'
+                    #Stats total subcontainer
+                    PanelSubContainer:
+                        height: 325
+                        PanelHeader:
+                            MinWidthLabel:
+                                text: 'Total Stats'
+                                pos_hint: root.style.pos_float_center
+                        ContentContainerSingleVertical:
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Strength:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.stat_totals['strength']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Endurance:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.stat_totals['endurance']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Agility:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.stat_totals['agility']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Accuracy:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.stat_totals['accuracy']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Critical Hit:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.stat_totals['critical']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Reloading:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.stat_totals['reloading']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Dexterity:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.stat_totals['dexterity']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Stealth:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.stat_totals['stealth']))
 
-                    #Content container
-                    GridLayout:
-                        cols: 1
-                        padding: 10
-                        spacing: 10
-
-                        BoxLayout:
-                            orientation: 'horizontal'
-                            spacing: 10
-                        #Stats total subcontainer
+                    #Proficiency total subcontainer
+                    PanelSubContainer:
+                        height: 325
+                        PanelHeader:
+                            MinWidthLabel:
+                                text: 'Total Proficiencies'
+                                pos_hint: root.style.pos_float_center
+                        ContentContainerSingleVertical:
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Melee:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.proficiencies['melee']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Pistols:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.proficiencies['pistols']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Rifles:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.proficiencies['rifles']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Shotguns:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.proficiencies['shotguns']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Machineguns:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.proficiencies['machineguns']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Explosives:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.proficiencies['explosives']))
                             BoxLayout:
-                                orientation: 'vertical'
-                                canvas:
-                                    Color:
-                                        rgba: (255,255,255,0.05)
-                                    Rectangle:
-                                        size: self.size
-                                        pos: self.pos
 
-                                #Title container
-                                BoxLayout:
-                                    size_hint_y: None
-                                    height: 30
-                                    Label:
-                                        text: 'Total Stats'
-                                        size: self.texture_size
+                #Bonuses container            
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: 325
+                    spacing: 10
 
-                                #Display container
-                                BoxLayout:
-                                    orientation: 'vertical'
-                                    spacing: 10
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Strength'
-                                        Label:
-                                            text: '{}'.format(int(root.character.stat_totals['strength']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Endurance'
-                                        Label:
-                                            text: '{}'.format(int(root.character.stat_totals['endurance']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Agility'
-                                        Label:
-                                            text: '{}'.format(int(root.character.stat_totals['agility']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Accuracy'
-                                        Label:
-                                            text: '{}'.format(int(root.character.stat_totals['accuracy']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Critical Hit'
-                                        Label:
-                                            text: '{}'.format(int(root.character.stat_totals['critical']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Reloading'
-                                        Label:
-                                            text: '{}'.format(int(root.character.stat_totals['reloading']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Dexterity'
-                                        Label:
-                                            text: '{}'.format(int(root.character.stat_totals['dexterity']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Stealth'
-                                        Label:
-                                            text: '{}'.format(int(root.character.stat_totals['stealth']))
-                                            size_hint_y: None
-                                            height: 30
+                    #Stats bonus subcontainer
+                    PanelSubContainer:
+                        height: 325
+                        PanelHeader:
+                            MinWidthLabel:
+                                text: 'Bonus Stats'
+                                pos_hint: root.style.pos_float_center
+                        ContentContainerSingleVertical:
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Strength:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_stats['strength']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Endurance:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_stats['endurance']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Agility:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_stats['agility']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Accuracy:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_stats['accuracy']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Critical Hit:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_stats['critical']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Reloading:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_stats['reloading']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Dexterity:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_stats['dexterity']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Stealth:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_stats['stealth']))
 
-                        #Proficiencies total subcontainer
+                    #Proficiency bonus subcontainer
+                    PanelSubContainer:
+                        height: 325
+                        PanelHeader:
+                            MinWidthLabel:
+                                text: 'Bonus Proficiencies'
+                                pos_hint: root.style.pos_float_center
+                        ContentContainerSingleVertical:
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Melee:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_proficiencies['melee']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Pistols:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_proficiencies['pistols']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Rifles:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_proficiencies['rifles']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Shotguns:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_proficiencies['shotguns']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Machineguns:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_proficiencies['machineguns']))
+                            StatTotalContainer:
+                                StatTotalLabel:
+                                    text: 'Explosives:'
+                                StatTotalOutputLabel:
+                                    text: '{}'.format(int(root.character.profession_proficiencies['explosives']))
                             BoxLayout:
-                                orientation: 'vertical'
-                                canvas:
-                                    Color:
-                                        rgba: (255,255,255,0.05)
-                                    Rectangle:
-                                        size: self.size
-                                        pos: self.pos
-
-                                #Title container
-                                BoxLayout:
-                                    size_hint_y: None
-                                    height: 30
-                                    Label:
-                                        text: 'Total Proficiencies'
-                                        size: self.texture_size
-
-                                #Display container
-                                BoxLayout:
-                                    orientation: 'vertical'
-                                    spacing: 10
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Melee'
-                                        Label:
-                                            text: '{}'.format(int(root.character.proficiencies['melee']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Pistols'
-                                        Label:
-                                            text: '{}'.format(int(root.character.proficiencies['pistols']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Rifles'
-                                        Label:
-                                            text: '{}'.format(int(root.character.proficiencies['rifles']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Shotguns'
-                                        Label:
-                                            text: '{}'.format(int(root.character.proficiencies['shotguns']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Machineguns'
-                                        Label:
-                                            text: '{}'.format(int(root.character.proficiencies['machineguns']))
-                                            size_hint_y: None
-                                            height: 30
-                                    BoxLayout:
-                                        orientation: 'horizontal'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Explosives'
-                                        Label:
-                                            text: '{}'.format(int(root.character.proficiencies['explosives']))
-                                            size_hint_y: None
-                                            height: 30
-
-                    #Profession details subcontainer
-                        BoxLayout:
-                            orientation: 'vertical'
-                            canvas:
-                                Color:
-                                    rgba: (255,255,255,0.05)
-                                Rectangle:
-                                    size: self.size
-                                    pos: self.pos
-
-                            #Title container
-                            BoxLayout:
-                                size_hint_y: None
-                                height: 30
-                                Label:
-                                    text: 'Profession Details'
-                                    size: self.texture_size
-
-                            #Display container
-                            BoxLayout:
-                                orientation: 'vertical'
-                                spacing: 10
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    Label:
-                                        size_hint_y: None
-                                        height: 30
-                                        text: 'Profession'
-                                    Label:
-                                        text: '{}'.format(root.character.profession_name)
-                                        size_hint_y: None
-                                        height: 30
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    BoxLayout:
-                                        orientation: 'vertical'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Bonus Stats'
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Strength'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_stats['strength']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Endurance'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_stats['endurance']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Agility'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_stats['agility']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Accuracy'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_stats['accuracy']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Critical Hit'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_stats['critical']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Reloading'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_stats['reloading']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Dexterity'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_stats['dexterity']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Stealth'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_stats['stealth']))
-                                                size_hint_y: None
-                                                height: 30
-                                    BoxLayout:
-                                        orientation: 'vertical'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Bonus Proficiencies'
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Melee'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_proficiencies['melee']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Pistols'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_proficiencies['pistols']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Rifles'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_proficiencies['rifles']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Shotguns'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_proficiencies['shotguns']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Machineguns'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_proficiencies['machineguns']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Explosives'
-                                            Label:
-                                                text: '{}'.format(int(root.character.profession_proficiencies['explosives']))
-                                                size_hint_y: None
-                                                height: 30
-
-                    #Equipment details subcontainer
-                        BoxLayout:
-                            orientation: 'vertical'
-                            canvas:
-                                Color:
-                                    rgba: (255,255,255,0.05)
-                                Rectangle:
-                                    size: self.size
-                                    pos: self.pos
-
-                            #Title container
-                            BoxLayout:
-                                size_hint_y: None
-                                height: 30
-                                Label:
-                                    text: 'Equipment details'
-                                    size: self.texture_size
-
-                            #Display container
-                            BoxLayout:
-                                orientation: 'vertical'
-                                spacing: 10
-                                BoxLayout:
-                                    orientation: 'horizontal'
-                                    spacing: 10
-                                    BoxLayout:
-                                        orientation: 'vertical'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Weapons'
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Accuracy'
-                                            Label:
-                                                text: '{}'.format(int(root.character.equipment_bonus_totals['accuracy']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Reloading'
-                                            Label:
-                                                text: '{}'.format(int(root.character.equipment_bonus_totals['reloading']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Critical Hit'
-                                            Label:
-                                                text: '{}'.format(int(root.character.equipment_bonus_totals['critical']))
-                                                size_hint_y: None
-                                                height: 30
-                                    BoxLayout:
-                                        orientation: 'vertical'
-                                        spacing: 10
-                                        Label:
-                                            size_hint_y: None
-                                            height: 30
-                                            text: 'Armour'
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Endurance'
-                                            Label:
-                                                text: '{}'.format(int(root.character.equipment_bonus_totals['endurance']))
-                                                size_hint_y: None
-                                                height: 30
-                                        BoxLayout:
-                                            orientation: 'horizontal'
-                                            spacing: 10
-                                            Label:
-                                                size_hint_y: None
-                                                height: 30
-                                                text: 'Agility'
-                                            Label:
-                                                text: '{}'.format(int(root.character.equipment_bonus_totals['agility']))
-                                                size_hint_y: None
-                                                height: 30
-                            
-            #Implants container
-            #GridLayout:
-                #cols:1
-                #canvas:
-                    #Color:
-                        #rgba: (0,0,0,0.6)
-                    #Rectangle:
-                        #size: self.size
-                        #pos: self.pos
+                        
+                BoxLayout:
 
     #Footer container
-    BoxLayout:
-        size_hint_y: None
-        height: 40
-        canvas:
-            Color:
-                rgba: (0,0,0,0.6)
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        Label:
-            text: 'Coded and maintaned by Rebekah | All non-code assets are the property of Creaky Corpse LTD and are utilised under fair-use'
-            size: self.texture_size
+    FooterContainer:
+        MinWidthLabel:
+            text: 'Coded and maintained by Rebekah'
+            pos_hint: root.style.pos_float_left
+        MinWidthLabel:
+            text: 'All non-code assets are the property of Creaky Corpse LTD and are utilised under fair-use'
+            pos_hint: root.style.pos_float_center
+        MinWidthLabel:
+            text: 'Icons courtesy of icons8'
+            pos_hint: root.style.pos_float_right
