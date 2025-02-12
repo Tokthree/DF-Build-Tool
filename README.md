@@ -19,5 +19,5 @@ Real talk, this is a project I've wanted to work on for a long time. However, I 
   - Copy to your clipboard a rundown of your entered stats!
   - Open a saved build!
   - Save your current build as a JSON file!
- 
-  That's basically it, a tool like this can only have so many features. Hopefully someone finds this useful, besides myself.
+
+That's basically it, a tool like this can only have so many features. Hopefully someone finds this useful, besides myself.
