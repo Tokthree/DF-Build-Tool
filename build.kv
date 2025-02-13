@@ -47,7 +47,7 @@
         Rectangle:
             size: self.size
             pos: self.pos
-    
+
 <PanelSubContainer@BoxLayout>:
     orientation: 'vertical'
     size_hint_y: None
@@ -67,7 +67,7 @@
 <ContentContainerSingleVertical@BoxLayout>:
     orientation: 'vertical'
     spacing: 5
-    
+
 <SliderInputContainer@BoxLayout>:
     orientation: 'horizontal'
     size_hint_y: None
@@ -86,7 +86,7 @@
     size_hint_y: None
     size: self.texture_size
 
-<StatLabel@Label>
+<StatLabel@Label>:
     size_hint_x: None
     width: 100
 
@@ -141,11 +141,11 @@
     background_horizontal: './images/UI Assets/SliderBackground.png'
     background_width: 7
 
-<ButtonImage@Image>
+<ButtonImage@Image>:
     size: self.parent.size
     y: self.parent.y
     x: self.parent.x
-    
+
 #UI Definition
 <BuildScreen>:
     orientation: 'vertical'
@@ -183,7 +183,7 @@
 
         #Character stats subcontainer
         PanelContainer:
-            
+
             #Header container
             PanelHeader:
                 MinWidthLabel:
@@ -227,7 +227,7 @@
                             text: str(int(root.character.required_level))
                             on_text:
                                 root.set_label_color('reqLevel')
-                    
+
                 #Stat input subcontainer
                 PanelSubContainer:
                     height: 325
@@ -253,10 +253,10 @@
                                 id: strength
                                 min: (25 + root.character.profession_stats['strength'])
                                 max: 100
-                                on_value: 
+                                on_value:
                                     root.character.set_stat('strength', self.value)
                             StatOutputLabel:
-                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['strength'], (root.ids.strength.value - root.character.profession_stats['strength']), root.character.equipment_bonus_totals['strength'] if 'strength' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['strength'])
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['strength'], (root.ids.strength.value - root.character.profession_stats['strength']), root.character.equipment_bonus_totals['strength'], root.character.profession_stats['strength'])
                         SliderInputContainer:
                             StatLabel:
                                 text: 'Endurance:'
@@ -264,10 +264,10 @@
                                 id: endurance
                                 min: (25 + root.character.profession_stats['endurance'])
                                 max: 100
-                                on_value: 
+                                on_value:
                                     root.character.set_stat('endurance', self.value)
                             StatOutputLabel:
-                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['endurance'], (root.ids.endurance.value - root.character.profession_stats['endurance']), root.character.equipment_bonus_totals['endurance'] if 'endurance' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['endurance'])
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['endurance'], (root.ids.endurance.value - root.character.profession_stats['endurance']), root.character.equipment_bonus_totals['endurance'], root.character.profession_stats['endurance'])
                         SliderInputContainer:
                             StatLabel:
                                 text: 'Agility:'
@@ -275,10 +275,10 @@
                                 id: agility
                                 min: (25 + root.character.profession_stats['agility'])
                                 max: 100
-                                on_value: 
+                                on_value:
                                     root.character.set_stat('agility', self.value)
                             StatOutputLabel:
-                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['agility'], (root.ids.agility.value - root.character.profession_stats['agility']), root.character.equipment_bonus_totals['agility'] if 'agility' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['agility'])
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['agility'], (root.ids.agility.value - root.character.profession_stats['agility']), root.character.equipment_bonus_totals['agility'], root.character.profession_stats['agility'])
                         SliderInputContainer:
                             StatLabel:
                                 text: 'Accuracy:'
@@ -286,10 +286,10 @@
                                 id: accuracy
                                 min: (25 + root.character.profession_stats['accuracy'])
                                 max: 100
-                                on_value: 
+                                on_value:
                                     root.character.set_stat('accuracy', self.value)
                             StatOutputLabel:
-                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['accuracy'], (root.ids.accuracy.value - root.character.profession_stats['accuracy']), root.character.equipment_bonus_totals['accuracy'] if 'accuracy' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['accuracy'])
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['accuracy'], (root.ids.accuracy.value - root.character.profession_stats['accuracy']), root.character.equipment_bonus_totals['accuracy'], root.character.profession_stats['accuracy'])
                         SliderInputContainer:
                             StatLabel:
                                 text: 'Critical Hit:'
@@ -297,10 +297,10 @@
                                 id: critical
                                 min: (25 + root.character.profession_stats['critical'])
                                 max: 100
-                                on_value: 
+                                on_value:
                                     root.character.set_stat('critical', self.value)
                             StatOutputLabel:
-                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['critical'], (root.ids.critical.value - root.character.profession_stats['critical']), root.character.equipment_bonus_totals['critical'] if 'critical' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['critical'])
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['critical'], (root.ids.critical.value - root.character.profession_stats['critical']), root.character.equipment_bonus_totals['critical'], root.character.profession_stats['critical'])
                         SliderInputContainer:
                             StatLabel:
                                 text: 'Reloading:'
@@ -308,10 +308,10 @@
                                 id: reloading
                                 min: (25 + root.character.profession_stats['reloading'])
                                 max: 100
-                                on_value: 
+                                on_value:
                                     root.character.set_stat('reloading', self.value)
                             StatOutputLabel:
-                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['reloading'], (root.ids.reloading.value - root.character.profession_stats['reloading']), root.character.equipment_bonus_totals['reloading'] if 'reloading' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['reloading'])
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['reloading'], (root.ids.reloading.value - root.character.profession_stats['reloading']), root.character.equipment_bonus_totals['reloading'], root.character.profession_stats['reloading'])
                         SliderInputContainer:
                             StatLabel:
                                 text: 'Dexterity:'
@@ -319,10 +319,10 @@
                                 id: dexterity
                                 min: (0 + root.character.profession_stats['dexterity'])
                                 max: 100
-                                on_value: 
+                                on_value:
                                     root.character.set_stat('dexterity', self.value)
                             StatOutputLabel:
-                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['dexterity'], (int(root.ids.dexterity.value) - root.character.profession_stats['dexterity']), root.character.equipment_bonus_totals['dexterity'] if 'dexterity' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['dexterity'])
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['dexterity'], (int(root.ids.dexterity.value) - root.character.profession_stats['dexterity']), root.character.equipment_bonus_totals['dexterity'], root.character.profession_stats['dexterity'])
                         SliderInputContainer:
                             StatLabel:
                                 text: 'Stealth:'
@@ -330,11 +330,11 @@
                                 id: stealth
                                 min: (0 + root.character.profession_stats['stealth'])
                                 max: 100
-                                on_value: 
+                                on_value:
                                     root.character.set_stat('stealth', self.value)
                             StatOutputLabel:
-                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['stealth'], (int(root.ids.stealth.value) - root.character.profession_stats['stealth']), root.character.equipment_bonus_totals['stealth'] if 'stealth' in root.character.equipment_bonus_totals else 0, root.character.profession_stats['stealth'])
-                        
+                                text: '{} ({} + {} + {})'.format(root.character.stat_totals['stealth'], (int(root.ids.stealth.value) - root.character.profession_stats['stealth']), root.character.equipment_bonus_totals['stealth'], root.character.profession_stats['stealth'])
+
                 #Proficiency input subcontainer
                 PanelSubContainer:
                     height: 255
@@ -360,7 +360,7 @@
                                 id: melee
                                 min: (5 + root.character.profession_proficiencies['melee'])
                                 max: 135
-                                on_value: 
+                                on_value:
                                     root.character.set_proficiency('melee', self.value)
                             StatOutputLabel:
                                 text: '{} ({} + {})'.format(root.character.proficiencies['melee'], int(root.ids.melee.value - root.character.profession_proficiencies['melee']), root.character.profession_proficiencies['melee'])
@@ -371,7 +371,7 @@
                                 id: pistols
                                 min: (5 + root.character.profession_proficiencies['pistols'])
                                 max: 135
-                                on_value: 
+                                on_value:
                                     root.character.set_proficiency('pistols', self.value)
                             StatOutputLabel:
                                 text: '{} ({} + {})'.format(root.character.proficiencies['pistols'], int(root.ids.pistols.value - root.character.profession_proficiencies['pistols']), root.character.profession_proficiencies['pistols'])
@@ -382,7 +382,7 @@
                                 id: rifles
                                 min: root.character.profession_proficiencies['rifles']
                                 max: 135
-                                on_value: 
+                                on_value:
                                     root.character.set_proficiency('rifles', self.value)
                             StatOutputLabel:
                                 text: '{} ({} + {})'.format(root.character.proficiencies['rifles'], int(root.ids.rifles.value - root.character.profession_proficiencies['rifles']), root.character.profession_proficiencies['rifles'])
@@ -393,7 +393,7 @@
                                 id: shotguns
                                 min: root.character.profession_proficiencies['shotguns']
                                 max: 135
-                                on_value: 
+                                on_value:
                                     root.character.set_proficiency('shotguns', self.value)
                             StatOutputLabel:
                                 text: '{} ({} + {})'.format(root.character.proficiencies['shotguns'], int(root.ids.shotguns.value - root.character.profession_proficiencies['shotguns']), root.character.profession_proficiencies['shotguns'])
@@ -404,7 +404,7 @@
                                 id: machineguns
                                 min: root.character.profession_proficiencies['machineguns']
                                 max: 135
-                                on_value: 
+                                on_value:
                                     root.character.set_proficiency('machineguns', self.value)
                             StatOutputLabel:
                                 text: '{} ({} + {})'.format(root.character.proficiencies['machineguns'], int(root.ids.machineguns.value - root.character.profession_proficiencies['machineguns']), root.character.profession_proficiencies['machineguns'])
@@ -415,16 +415,16 @@
                                 id: explosives
                                 min: root.character.profession_proficiencies['explosives']
                                 max: 135
-                                on_value: 
+                                on_value:
                                     root.character.set_proficiency('explosives', self.value)
                             StatOutputLabel:
                                 text: '{} ({} + {})'.format(root.character.proficiencies['explosives'], int(root.ids.explosives.value - root.character.profession_proficiencies['explosives']), root.character.profession_proficiencies['explosives'])
-                        
+
                 BoxLayout:
-                    
+
         #Weapon stats subcontainer
         PanelContainer:
-            
+
             #Header container
             PanelHeader:
                 MinWidthLabel:
@@ -434,7 +434,7 @@
                     on_press: root.button_manager('reset', 'equipment')
                     ButtonImage:
                         source: './images/icons/reset.png'
-            
+
             #Content container
             ContentContainer:
                 #Weapon1 bonuses subcontainer
@@ -452,7 +452,7 @@
                                 id: w1Accuracy
                                 min: 0
                                 max: 8
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('weapon1', 'accuracy', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.w1Accuracy.value))
@@ -463,7 +463,7 @@
                                 id: w1Reloading
                                 min: 0
                                 max: 8
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('weapon1', 'reloading', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.w1Reloading.value))
@@ -474,11 +474,11 @@
                                 id: w1Critical
                                 min: 0
                                 max: 8
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('weapon1', 'critical', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.w1Critical.value))
-                
+
                 #Weapon2 bonuses subcontainer
                 PanelSubContainer:
                     height: 150
@@ -494,7 +494,7 @@
                                 id: w2Accuracy
                                 min: 0
                                 max: 8
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('weapon2', 'accuracy', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.w2Accuracy.value))
@@ -505,7 +505,7 @@
                                 id: w2Reloading
                                 min: 0
                                 max: 8
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('weapon2', 'reloading', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.w2Reloading.value))
@@ -516,11 +516,11 @@
                                 id: w2Critical
                                 min: 0
                                 max: 8
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('weapon2', 'critical', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.w2Critical.value))
-                
+
                 #Weapon3 bonuses subcontainer
                 PanelSubContainer:
                     height: 150
@@ -536,7 +536,7 @@
                                 id: w3Accuracy
                                 min: 0
                                 max: 8
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('weapon3', 'accuracy', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.w3Accuracy.value))
@@ -547,7 +547,7 @@
                                 id: w3Reloading
                                 min: 0
                                 max: 8
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('weapon3', 'reloading', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.w3Reloading.value))
@@ -558,11 +558,11 @@
                                 id: w3Critical
                                 min: 0
                                 max: 8
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('weapon3', 'critical', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.w3Critical.value))
-                
+
                 #Armour bonuses subcontainer
                 PanelSubContainer:
                     height: 115
@@ -578,7 +578,7 @@
                                 id: aEndurance
                                 min: 0
                                 max: 24
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('armour', 'endurance', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.aEndurance.value))
@@ -589,13 +589,13 @@
                                 id: aAgility
                                 min: 0
                                 max: 24
-                                on_value: 
+                                on_value:
                                     root.character.set_equipment('armour', 'agility', int(self.value))
                             StatOutputLabel:
                                 text: '{}'.format(int(root.ids.aAgility.value))
 
                 BoxLayout:
-                
+
         #Total stats subcontainer
         PanelContainer:
 
@@ -611,7 +611,7 @@
 
             #Content container
             ContentContainer:
-                
+
                 #Totals container
                 BoxLayout:
                     orientation: 'horizontal'
@@ -708,7 +708,7 @@
                                     text: '{}'.format(int(root.character.proficiencies['explosives']))
                             BoxLayout:
 
-                #Bonuses container            
+                #Bonuses container
                 BoxLayout:
                     orientation: 'horizontal'
                     size_hint_y: None
@@ -727,42 +727,42 @@
                                 StatTotalLabel:
                                     text: 'Strength:'
                                 StatTotalOutputLabel:
-                                    text: '{}'.format(int(root.character.profession_stats['strength']))
+                                    text: '{}'.format(int(root.character.profession_stats['strength'] + root.character.equipment_bonus_totals['strength']))
                             StatTotalContainer:
                                 StatTotalLabel:
                                     text: 'Endurance:'
                                 StatTotalOutputLabel:
-                                    text: '{}'.format(int(root.character.profession_stats['endurance']))
+                                    text: '{}'.format(int(root.character.profession_stats['endurance'] + root.character.equipment_bonus_totals['endurance']))
                             StatTotalContainer:
                                 StatTotalLabel:
                                     text: 'Agility:'
                                 StatTotalOutputLabel:
-                                    text: '{}'.format(int(root.character.profession_stats['agility']))
+                                    text: '{}'.format(int(root.character.profession_stats['agility'] + root.character.equipment_bonus_totals['agility']))
                             StatTotalContainer:
                                 StatTotalLabel:
                                     text: 'Accuracy:'
                                 StatTotalOutputLabel:
-                                    text: '{}'.format(int(root.character.profession_stats['accuracy']))
+                                    text: '{}'.format(int(root.character.profession_stats['accuracy'] + root.character.equipment_bonus_totals['accuracy']))
                             StatTotalContainer:
                                 StatTotalLabel:
                                     text: 'Critical Hit:'
                                 StatTotalOutputLabel:
-                                    text: '{}'.format(int(root.character.profession_stats['critical']))
+                                    text: '{}'.format(int(root.character.profession_stats['critical'] + root.character.equipment_bonus_totals['critical']))
                             StatTotalContainer:
                                 StatTotalLabel:
                                     text: 'Reloading:'
                                 StatTotalOutputLabel:
-                                    text: '{}'.format(int(root.character.profession_stats['reloading']))
+                                    text: '{}'.format(int(root.character.profession_stats['reloading'] + root.character.equipment_bonus_totals['reloading']))
                             StatTotalContainer:
                                 StatTotalLabel:
                                     text: 'Dexterity:'
                                 StatTotalOutputLabel:
-                                    text: '{}'.format(int(root.character.profession_stats['dexterity']))
+                                    text: '{}'.format(int(root.character.profession_stats['dexterity'] + root.character.equipment_bonus_totals['dexterity']))
                             StatTotalContainer:
                                 StatTotalLabel:
                                     text: 'Stealth:'
                                 StatTotalOutputLabel:
-                                    text: '{}'.format(int(root.character.profession_stats['stealth']))
+                                    text: '{}'.format(int(root.character.profession_stats['stealth'] + root.character.equipment_bonus_totals['stealth']))
 
                     #Proficiency bonus subcontainer
                     PanelSubContainer:
@@ -803,7 +803,7 @@
                                 StatTotalOutputLabel:
                                     text: '{}'.format(int(root.character.profession_proficiencies['explosives']))
                             BoxLayout:
-                        
+
                 BoxLayout:
 
     #Footer container

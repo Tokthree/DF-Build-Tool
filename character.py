@@ -1,6 +1,5 @@
-from kivy.properties import NumericProperty, DictProperty, ListProperty, StringProperty
+from kivy.properties import NumericProperty, DictProperty, StringProperty
 from kivy.uix.behaviors.codenavigation import EventDispatcher
-import json
 
 class Implant():
     def __init__(self, name: str, stats: dict):
@@ -59,7 +58,7 @@ class Character(EventDispatcher):
         })
     equipment_bonus_totals = DictProperty({})
     stat_totals = DictProperty({})
-    
+
     def __init__(self):
         self.update()
 
@@ -96,11 +95,12 @@ class Character(EventDispatcher):
     def update_equipment_bonus_totals(self):
         equipment_bonus_totals_temp = {}
         for key in self.equipment:
-            for key2 in self.equipment[key]:
+            for key2 in self.stats:
                 if key2 not in equipment_bonus_totals_temp:
                     equipment_bonus_totals_temp[key2] = 0
-                equipment_bonus_totals_temp[key2] += self.equipment[key][key2]
-        self.equipment_bonus_totals = equipment_bonus_totals_temp 
+                if key2 in self.equipment[key]:
+                    equipment_bonus_totals_temp[key2] += self.equipment[key][key2]
+        self.equipment_bonus_totals = equipment_bonus_totals_temp
 
     def update_stat_totals(self):
         for key in self.stats:
@@ -161,7 +161,7 @@ class Character(EventDispatcher):
         repr_string += f'\n\n---Allocated proficiencies---\n\n'
         for key in self.proficiencies:
             repr_string += f'- {key}: {self.proficiencies[key]}\n'
-        
+
         repr_string += f'\n\n---Equipment Bonuses---\n\n'
         for key in self.equipment:
             repr_string += f'{key}:\n'
@@ -187,6 +187,5 @@ class Character(EventDispatcher):
         repr_string += '\nProficiencies:\n'
         for key in self.proficiencies:
             repr_string += f'- {key}: {self.proficiencies[key]}\n'
-
 
         return repr_string

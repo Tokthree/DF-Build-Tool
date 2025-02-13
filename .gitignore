@@ -1,5 +1,9 @@
 __pycache__/
+.venv/
 kivy_venv/
 saved builds/
+build/
+dist/
+*.spec
 tests.py
 *.old

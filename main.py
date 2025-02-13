@@ -25,12 +25,13 @@ class BuildScreen(BoxLayout):
         super(BuildScreen, self).__init__(**kwargs)
         with open('./data/professionData.json') as f:
             self.professionData = json.load(f)
+            f.close()
         self.populate_select()
 
     def populate_select(self):
         for key in self.professionData:
             self.ids.pSelect.values.append(key)
-    
+
     def profession_select(self):
         element = self.ids.pSelect
         self.character.set_profession(element.text, self.professionData[element.text]['stats'], self.professionData[element.text]['proficiencies'])
@@ -45,7 +46,7 @@ class BuildScreen(BoxLayout):
             if not element.text:
                 element.text = '1'
             self.character.set_level(int(element.text))
-    
+
     def set_label_color(self, source):
         if source == 'stats':
             element = self.ids.sPointsLabel
@@ -69,7 +70,7 @@ class BuildScreen(BoxLayout):
                 element.color = [1,0,0,1]
             else:
                 element.color = [1,1,1,1]
-    
+
     def button_manager(self, action, target = None):
         match action:
             case 'copy':
@@ -138,7 +139,7 @@ class BuildScreen(BoxLayout):
         except FileExistsError:
             print(f'File already exists: {fname}')
             return
-                
+
     def reset_stats(self):
         self.ids.pSelect.text = 'Production / Roleplay'
         self.ids.lInput.text = '1'
@@ -158,7 +159,7 @@ class BuildApp(App):
     def build(self):
         self.title = 'Dead Frontier Build Tool'
         return BuildScreen()
-        
+
 
 if __name__ == "__main__":
     BuildApp().run()
