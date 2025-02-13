@@ -23,7 +23,7 @@ Real talk, this is a project I've wanted to work on for a long time. However, I 
 That's basically it, a tool like this can only have so many features. Hopefully someone finds this useful, besides myself.
 
 ## Installation
-Just grab the latest file from the releases section, unzip it while preserving the folder structure (all the files must be inside the `DF Build Tool` folder) and you should be good to go!
+Just grab the latest file for your OS from the releases section, unzip it while preserving the folder structure (all the files must be inside the `DF Build Tool` folder) and you should be good to go!
 
 ## Build instructions
 This branch is intended to be run as-is on a Linux system. Please either download one of the pre-packaged releases, or navigate to one of the platform-specific branches for adjusted source code and platform-appropriate build instructions!
