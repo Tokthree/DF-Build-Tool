@@ -21,3 +21,21 @@ Real talk, this is a project I've wanted to work on for a long time. However, I 
   - Save your current build as a JSON file!
 
 That's basically it, a tool like this can only have so many features. Hopefully someone finds this useful, besides myself.
+
+## Installation
+Just grab the latest file from the releases section, unzip it while preserving the folder structure (all the files must be inside the `DF Build Tool` folder) and you should be good to go!
+
+## Build instructions
+This branch is intended to be run as-is on a Linux system. Please either download one of the pre-packaged releases, or navigate to one of the platform-specific branches for adjusted source code and platform-appropriate build instructions!
+
+### Dependencies
+You're gonna need to have the following packages to build the project yourself:
+- `pip install "kivy[full]"`
+- `pip install "kivy[gstreamer]"`
+- `pip install "kivy[sdl2]"`
+- `pip install "kivy[glew]"`
+- `pip install pyperclip`
+- `pip install plyer`
+- `pip install pyinstaller`
+
+This is going to sound pretty bad, but I've spent so many hours trying to get the build working on my end, that I've forgotten if there were any other dependencies. Hopefully I haven't, but please let me know if I did.
