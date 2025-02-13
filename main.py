@@ -9,6 +9,7 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 
 import os
+import sys
 import json
 import pyperclip
 from plyer import filechooser
@@ -17,13 +18,20 @@ from datetime import datetime
 from character import Character
 from style import Style
 
+def resource_path(relative):
+        try:
+            base_path = sys._MEIPASS
+        except:
+            base_path = os.path.abspath('.')
+        return os.path.join(base_path, relative)
+
 class BuildScreen(BoxLayout):
     character = Character()
     style = Style()
 
     def __init__(self, **kwargs):
         super(BuildScreen, self).__init__(**kwargs)
-        with open('./data/professionData.json') as f:
+        with open(resource_path('data/professionData.json')) as f:
             self.professionData = json.load(f)
             f.close()
         self.populate_select()
@@ -90,44 +98,45 @@ class BuildScreen(BoxLayout):
                         self.reset_equipment()
 
     def load_data(self):
-        path = filechooser.open_file(title='Pick a JSON file...', filters=[('*.json')])
-        if not path:
+        fpath = filechooser.open_file(title='Pick a JSON file...', filters=[('*.json')])
+        if not fpath:
             return
 
         try:
-            f = open(path[0], 'r')
+            with open(fpath[0], 'r') as f:
+                fdata = json.load(f)
+
+                for key in fdata['stats']:
+                    self.ids[key].value = fdata['stats'][key]
+                for key in fdata['proficiencies']:
+                    self.ids[key].value = fdata['proficiencies'][key]
+                for key in fdata['equipment']:
+                    id = ''
+                    match key:
+                        case 'weapon1':
+                            id = 'w1'
+                        case 'weapon2':
+                            id = 'w2'
+                        case 'weapon3':
+                            id = 'w3'
+                        case 'armour':
+                            id = 'a'
+                    for key2 in fdata['equipment'][key]:
+                        self.ids[f'{id}{str.capitalize(key2)}'].value = fdata['equipment'][key][key2]
+                self.ids.pSelect.text = fdata['profession_name']
+                self.ids.lInput.text = str(fdata['level'])
+                self.level_input('validate')
         except OSError:
-            print('Could not open/read file: ', path[0])
+            print('Could not open/read file: ', fpath[0])
             return
-        with f:
-            fdata = json.load(f)
-
-            for key in fdata['stats']:
-                self.ids[key].value = fdata['stats'][key]
-            for key in fdata['proficiencies']:
-                self.ids[key].value = fdata['proficiencies'][key]
-            for key in fdata['equipment']:
-                id = ''
-                match key:
-                    case 'weapon1':
-                        id = 'w1'
-                    case 'weapon2':
-                        id = 'w2'
-                    case 'weapon3':
-                        id = 'w3'
-                    case 'armour':
-                        id = 'a'
-                for key2 in fdata['equipment'][key]:
-                    self.ids[f'{id}{str.capitalize(key2)}'].value = fdata['equipment'][key][key2]
-            self.ids.pSelect.text = fdata['profession_name']
-            self.ids.lInput.text = str(fdata['level'])
-            self.level_input('validate')
-
-            f.close()
 
     def save_data(self):
+        if getattr(sys, 'frozen', False):
+            application_path = os.path.dirname(sys.executable)
+        else:
+            application_path = os.path.dirname(os.path.abspath(__file__))
         now = datetime.now()
-        fname = f'./saved builds/saved_build_{now.strftime("%d-%m-%Y_%H-%M-%S")}.json'
+        fname = os.path.join(application_path, f'saved builds/saved_build_{now.strftime("%d-%m-%Y_%H-%M-%S")}.json')
         fdata = self.character.toJSON()
 
         os.makedirs(os.path.dirname(fname), exist_ok=True)
@@ -135,7 +144,6 @@ class BuildScreen(BoxLayout):
         try:
             with open(fname, 'x') as f:
                 f.write(fdata)
-                f.close()
         except FileExistsError:
             print(f'File already exists: {fname}')
             return
@@ -158,6 +166,7 @@ class BuildScreen(BoxLayout):
 class BuildApp(App):
     def build(self):
         self.title = 'Dead Frontier Build Tool'
+        self.icon = resource_path('app.ico')
         return BuildScreen()
 
 
